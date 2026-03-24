@@ -1,21 +1,29 @@
 import { useState } from 'react'
+import { Persons } from './components/Persons'
+import { Filter } from './components/Filter'
+import { PersonForm } from './components/Personform'
 
-const Person = ({ name }) => {
-	return <p>{name}</p>;
-  };
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', 
+	number: '222122' }
   ]) 
   
+  const [filterWord, setFilterWord] = useState("");
+
+  const handleFilterChange = (event) => {
+	setFilterWord(event.target.value);
+  };
 
   const addPerson = (event) => {
 	event.preventDefault(); // prevents page reload
 	console.log(structuredClone(event.target.elements.name.value));
 	const NewName = event.target.elements.name.value;
+	const NewNumber = event.target.elements.number.value;
 	const newPerson = {
-		name: NewName
+		name: NewName,
+		number: NewNumber
 	  };
 	if (!NewName)
 	{
@@ -25,6 +33,7 @@ const App = () => {
 	if(persons.find(person => person.name === NewName))
 	{
 		alert(`${NewName} is already added`)
+		return;
 	}
 	console.log(NewName +" added");
 	setPersons(persons.concat(newPerson));
@@ -32,20 +41,15 @@ const App = () => {
 
   };
 
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-	  <div>
-    	name: <input name="name" />
- 	 </div>
-        <div>
-		<button type="submit">add</button>
-        </div>
-      </form>
+	  <Filter filterWord={filterWord} handleFilterChange={handleFilterChange}  /> 
+      <PersonForm addPerson={addPerson}/>
       <h2>Numbers</h2>
       {persons.map(person => (
- 	 <Person key={person.name} name={person.name} />
+ 	 <Persons key={person.name} person={person} filterWord={filterWord}  />
 	))}
     </div>
   )
