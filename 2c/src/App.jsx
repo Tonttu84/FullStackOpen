@@ -1,56 +1,64 @@
+import { Persons } from './components/Persons'
+import { Filter } from './components/Filter'
+import { PersonForm } from './components/PersonForm'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Note from './components/Note'
+
 
 const App = () => {
-  const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
-  const [showAll, setShowAll] = useState(true)
+  const [persons, setPersons] = useState([
+  ]) 
+  
+  const [filterWord, setFilterWord] = useState("");
 
-  useEffect(() => {
+  const handleFilterChange = (event) => {
+	setFilterWord(event.target.value);
+  };
+
+    useEffect(() => {
     console.log('effect')
     axios.get('http://localhost:3001/persons').then((response) => {
       console.log('promise fulfilled')
-      setNotes(response.data)
+      setPersons(response.data)
     })
-  }, [])
-  console.log('render', notes.length, 'notes')
+  }, []);
 
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      name: event.name,
-      number: event.number,
-      id: event.id,
-    }
 
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
-  }
+  const addPerson = (event) => {
+	event.preventDefault(); // prevents page reload
+	console.log(structuredClone(event.target.elements.name.value));
+	const NewName = event.target.elements.name.value;
+	const NewNumber = event.target.elements.number.value;
+	const newPerson = {
+		name: NewName,
+		number: NewNumber
+	  };
+	if (!NewName)
+	{
+		alert('Name is empty');
+		return; 
+	}
+	if(persons.find(person => person.name === NewName))
+	{
+		alert(`${NewName} is already added`)
+		return;
+	}
+	console.log(NewName +" added");
+	setPersons(persons.concat(newPerson));
+	
 
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
-  }
+  };
 
-  const notesToShow = showAll ? notes : notes.filter((note) => note.important)
 
   return (
     <div>
-      <h1>Notes</h1>
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
-      <ul>
-        {notesToShow.map((note) => (
-          <Note key={note.id} note={note} />
-        ))}
-      </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
+      <h2>Phonebook</h2>
+	  <Filter filterWord={filterWord} handleFilterChange={handleFilterChange}  /> 
+      <PersonForm addPerson={addPerson}/>
+      <h2>Numbers</h2>
+      {persons.map(person => (
+ 	 <Persons key={person.name} person={person} filterWord={filterWord}  />
+	))}
     </div>
   )
 }
