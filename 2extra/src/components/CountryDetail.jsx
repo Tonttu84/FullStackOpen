@@ -1,3 +1,5 @@
+import {Weather} from "./Weather"
+
 export const CountryDetail = ({uniqueMatch}) => {
   return (
 
@@ -27,8 +29,7 @@ export const CountryDetail = ({uniqueMatch}) => {
   width="150" 
 />
 <p></p>
-<h1>Weather in {uniqueMatch.capital?.[0]} </h1>
-<div>Temperature is {0} Celcius </div>
+<Weather city={uniqueMatch.capital?.[0]} />
 
     </div>
   )
