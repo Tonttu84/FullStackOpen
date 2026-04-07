@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "\"\"",
+  "homepage": "https://github.com/Tonttu84/fullstacksubmission3#readme",
+  "bugs": {
+    "url": "https://github.com/Tonttu84/fullstacksubmission3/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tonttu84/fullstacksubmission3.git"
+  },
+  "license": "MIT",
+  "author": "Johannes S",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "\"echo \\\"Error: no test specified |\" && exit 1\""
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "morgan": "^1.10.1"
+  }
+}
