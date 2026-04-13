@@ -1,8 +1,9 @@
-import { mongoUrl, PORT } from "utils/config.js"
+const { mongoUrl, PORT } = require('./utils/config')
 const mongoose = require('mongoose')
 const express = require('express')
 const logger = require('./utils/logger')
 const config = require('./utils/config')
+const middleware = require('./utils/middleware')
 const blogRouter = require('./controllers/blog')
 
 
