@@ -1,4 +1,4 @@
-const logger = require('./logger')
+const logger = require('../utils/logger')
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -17,9 +17,15 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
+  } 
+  if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
+  if (error.code === 11000) {
+  return response.status(400).json({
+    error: 'username must be unique'
+  })
+}
 
   next(error)
 }

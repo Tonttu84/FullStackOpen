@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app')
+const app = require('../../app')
 
 const api = supertest(app)
 
@@ -84,12 +84,62 @@ test('blogs have id property instead of _id', async () => {
   })
 
 
+  test("deleting existing posts work", async () => {
+  const newBlog = {
+    title: 'extra new new blog',
+    author: 'Metootiii',
+    url: 'http://fakeexampleeeee.com'
+  }
 
+  const created = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
 
+  const id = created.body.id
 
+  const response = await api.get('/api/blogs')
 
+ await api
+  	.delete(`/api/blogs/${id}`)
+    .expect(204)
 
+  const responseAfterDelete = await api.get('/api/blogs')
 
+  const ids = responseAfterDelete.body.map(b => b.id)
+
+  expect(ids).not.toContain(id)
+})
+
+test("Modifying old blogs works", async () => {
+  const newBlog = {
+    title: 'extra new new blogg',
+    author: 'Metootiiii',
+    url: 'http://fakeexampleeeee.comm'
+  }
+
+  const created = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+  const id = created.body.id
+
+  const editedBlog = {
+    title: 'updated title',
+    author: 'Metootiiii',
+    url: 'http://fakeexampleeeee.comm',
+    likes: 2
+  }
+
+  const updated = await api
+    .put(`/api/blogs/${id}`)
+    .send(editedBlog)
+    .expect(200)
+
+  expect(updated.body.title).toBe('updated title')
+  expect(updated.body.likes).toBe(2)
+})
 
 
   after(async () => {
