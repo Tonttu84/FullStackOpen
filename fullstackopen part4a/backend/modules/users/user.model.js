@@ -8,8 +8,11 @@ const userSchema = new mongoose.Schema({
   },
   name: {type : String,
     required: true},
-  passwordHash: {type : String,
-    required: true},
+  passwordHash: {
+  type: String,
+  required: true,
+  select: false
+},
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,

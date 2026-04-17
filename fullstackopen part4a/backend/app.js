@@ -6,6 +6,7 @@ const config = require('./utils/config')
 const middleware = require('./middleware/middleware')
 const blogRouter = require('./modules/blogs/blog.controller')
 const userRouter = require('./modules/users/user.controller')
+const userExtractor = require('./middleware/auth.js')
 
 
 
@@ -25,6 +26,7 @@ mongoose
   })
 
 
+  app.use(userExtractor)
   app.use(express.static('dist'))
   app.use(express.json())
   app.use(middleware.requestLogger)
