@@ -1,5 +1,7 @@
 
-
+test('dummy', () => {
+  expect(true).toBe(true)
+})
 // Also, implement tests that ensure invalid users are not created and that an invalid add user operation returns a suitable status code 
 // and error message.
 

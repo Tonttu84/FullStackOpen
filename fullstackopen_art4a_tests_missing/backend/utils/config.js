@@ -1,15 +1,12 @@
-require('dotenv').config({ path: './backend/.env' })
-const logger = require('./logger')
+const result = require('dotenv').config()
 
-const mongoUrl = process.env.NODE_ENV === 'test' 
-  ? process.env.TEST_MONGODB_URI
-  : process.env.VAR_MONGO_URL
-
-if(!process.env.TEST_MONGODB_URI || !process.env.VAR_MONGO_URL)
-{
-	logger.info("env file is invalid")
+if (result.error) {
+  console.log('⚠️ .env file not found or failed to load')
+} else {
+  console.log('✅ .env loaded')
 }
 
-const PORT = process.env.VAR_PORT || 3001
+const PORT = process.env.PORT || 3001
+const mongoUrl = process.env.MONGODB_URI
 
-module.exports = { mongoUrl, PORT }
+module.exports = { PORT, mongoUrl }

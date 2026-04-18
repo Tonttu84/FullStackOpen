@@ -15,8 +15,13 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
+  console.log('CLEARING DB')
   await db.clearDatabase()
+
+  console.log('SEEDING DB')
   await db.seedDatabase()
+
+  console.log('DONE SEEDING')
 })
 
 afterAll(async () => {

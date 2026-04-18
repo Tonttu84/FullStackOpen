@@ -2,7 +2,7 @@ const blogRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const Blog = require('./blog.model.js')
 
-const {userExtractor} = require('../../middleware/auth.js')
+const { tokenExtractor, userExtractor } = require('../../middleware/auth.js')
 
 
 
@@ -17,7 +17,7 @@ blogRouter.get('/', async (request, response) => {
 
 
 
-blogRouter.post('/', userExtractor, async (request, response) => {
+blogRouter.post('/', tokenExtractor, userExtractor, async (request, response) => {
 	const blog = new Blog({
   title: request.body.title,
   author: request.body.author,
@@ -37,7 +37,7 @@ blogRouter.post('/', userExtractor, async (request, response) => {
 
 
 
-  blogRouter.delete('/:id', userExtractor , async (request, response) => {
+  blogRouter.delete('/:id', tokenExtractor, userExtractor, async (request, response) => {
   const { id } = request.params
 
   
@@ -57,7 +57,7 @@ blogRouter.post('/', userExtractor, async (request, response) => {
 })
 
 
-blogRouter.put('/:id', userExtractor, async (request, response) => {
+blogRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) => {
   const { id } = request.params
   const userId = request.userId
 
