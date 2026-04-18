@@ -3,7 +3,6 @@ const middleware = require('./middleware/middleware.js')
 
 const blogRouter = require('./modules/blogs/blog.controller.js')
 const userRouter = require('./modules/users/user.controller.js')
-const { tokenExtractor } = require('./middleware/auth.js')
 
 const app = express()
 
