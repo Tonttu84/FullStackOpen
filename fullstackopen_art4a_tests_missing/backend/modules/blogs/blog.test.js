@@ -1,13 +1,36 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../../app')
+const { createToken } = require('./blog.test.helper')
+const Blog = require('./blog.model')
+const User = require('../users/user.model')
+const db = require('./blog.test.database')
 
 const api = supertest(app)
 
-const initialBlogs = 0;
+const initialBlogs = 5;
+
+beforeAll(async () => {
+  await db.connect()
+})
+
+beforeEach(async () => {
+  await db.clearDatabase()
+  await db.seedDatabase()
+})
+
+afterAll(async () => {
+  await db.closeDatabase()
+})
+
+
+
+
 
 test('notes are returned as json',  async () => {
-  await api
+
+
+  const response = await api
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -141,8 +164,3 @@ test("Modifying old blogs works", async () => {
   expect(updated.body.likes).toBe(2)
 })
 
-
-  after(async () => {
-	await mongoose.connection.close()
-  })
-   

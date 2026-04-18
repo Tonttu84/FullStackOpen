@@ -11,21 +11,19 @@ const tokenExtractor = (request, response, next) => {
 
   request.token = token
 
-  return next(); //early return for now before verification
-
- 
-
-
+  return next(); 
 }
 
 const userExtractor =  (request, response, next) => {
 try {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    
 
     if (!request.token) {
     logger.warn('Token missing before verification')
     return response.status(401).json({ error: 'token missing' })
     }
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     if (!decodedToken.id) {
         logger.warn({
@@ -36,7 +34,6 @@ try {
 
     request.userId = decodedToken.id
     request.user = decodedToken.user;
-    request.decodedToken = decodedToken;
     
 
     next()
