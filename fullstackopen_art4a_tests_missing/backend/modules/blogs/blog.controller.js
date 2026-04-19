@@ -1,6 +1,7 @@
 const blogRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const Blog = require('./blog.model.js')
+const User = require('../users/user.model')
 
 const { tokenExtractor, userExtractor } = require('../../middleware/auth.js')
 

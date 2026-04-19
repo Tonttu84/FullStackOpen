@@ -10,7 +10,7 @@
 		"preview": "vite preview",
 		"start": "NODE_ENV=production node backend/index.js",
 		"dev": "NODE_ENV=development node --watch backend/index.js",
-		"test": "NODE_ENV=test node --test"
+		"test": "NODE_ENV=test jest --runInBand"
 	},
 	"dependencies": {
 		"bcrypt": "^6.0.0",

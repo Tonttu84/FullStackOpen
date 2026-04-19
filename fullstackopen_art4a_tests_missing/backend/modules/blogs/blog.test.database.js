@@ -28,7 +28,7 @@ const seedDatabase = async () => {
   const [alice, bob, charlie] = users
 
   const blogs = await Blog.insertMany([
-    { title: 'Alice Blog 1', author: 'Alice', url: 'http://a1.com', user: alice._id },
+    { title: 'Alice Blog 1', author: 'Alice', url: 'http://a1.com', user: alice._id, likes : 5 },
     { title: 'Alice Blog 2', author: 'Alice', url: 'http://a2.com', user: alice._id },
     { title: 'Bob Blog', author: 'Bob', url: 'http://b.com', user: bob._id },
     { title: 'Charlie Blog 1', author: 'Charlie', url: 'http://c1.com', user: charlie._id },

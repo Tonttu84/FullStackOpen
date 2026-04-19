@@ -23,7 +23,7 @@ try {
     return response.status(401).json({ error: 'token missing' })
     }
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const decodedToken = jwt.verify(request.token, SECRET)
 
     if (!decodedToken.id) {
         logger.warn({

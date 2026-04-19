@@ -1,14 +1,27 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../../app')
-const { createToken } = require('./blog.test.helper')
+const listHelper = require('./blog.test.helper')
 const Blog = require('./blog.model')
 const User = require('../users/user.model')
 const db = require('./blog.test.database')
+const {blogs} = require('./blog.test.data')
+
 
 const api = supertest(app)
 
 const initialBlogs = 5;
+
+/*
+
+
+
+4.4: Helper Functions and Unit Tests, step 2
+Define a new totalLikes function that 
+receives a list of blog posts as a parameter. The function returns the total sum of likes in all of the blog posts.
+
+
+*/
 
 beforeAll(async () => {
   await db.connect()
@@ -29,7 +42,56 @@ afterAll(async () => {
 })
 
 
+test('dummy returns one', () => {
+  const blogs = []
 
+  const result = listHelper.dummy(blogs)
+  expect(result).toBe(1)
+})
+
+describe('total likes', () => {
+  
+  
+
+  test('when list has only one blog, equals the likes of that', () => {
+
+  
+  
+
+    const result = listHelper.totalLikes([blogs[0]])
+    expect(result).toBe(7)
+  })
+
+
+  test('It works with multiple blogs too', () => {
+
+    const result = listHelper.totalLikes(blogs)
+    expect(result).toBe(36)
+
+     })
+
+})
+
+
+test('I can find the author with most blogs', () => {
+
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toStrictEqual({
+  author: "Robert C. Martin",
+  blogs: 3
+})
+
+     })
+
+test('I can find the author with most likes in all blogs', () => {
+
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toStrictEqual({
+  author: "Edsger W. Dijkstra",
+  likes: 17
+})
+
+     })     
 
 
 test('notes are returned as json',  async () => {
@@ -55,7 +117,10 @@ test('blogs have id property instead of _id', async () => {
 
 
 
-  test('a valid blog can be added and it increases the size by one', async () => {
+  test('a valid blog owned by the user can be added and it increases the size by one', async () => {
+
+  const token = listHelper.createToken()
+
 	const newBlog = {
 	  title: 'New blog',
 	  author: 'Me',
