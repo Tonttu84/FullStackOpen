@@ -13,4 +13,4 @@ const SECRET = process.env.NODE_ENV === 'test'
 const PORT = process.env.PORT || 3001
 const mongoUrl = process.env.MONGODB_URI
 
-module.exports = { PORT, mongoUrl }
+module.exports = { PORT, mongoUrl, SECRET }

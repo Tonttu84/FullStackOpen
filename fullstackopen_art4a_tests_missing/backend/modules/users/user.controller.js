@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const userRouter = require('express').Router()
 const User = require('./user.model.js')
+const congif = require('../../utils/config')
+const { config } = require('dotenv')
 
 
 userRouter.get('/', async (request, response) => {
@@ -73,7 +75,7 @@ userRouter.post('/', async (request, response) => {
 
   	 const token = jwt.sign(
     userForToken, 
-    SECRET,
+    config.SECRET,
     { expiresIn: 60*60 }
   )
 

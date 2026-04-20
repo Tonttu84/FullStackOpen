@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const congif = require('../../utils/config')
 
 
 
@@ -8,7 +9,7 @@ const createToken = (user) => {
     id: user._id
   }
 
-  return jwt.sign(userForToken, SECRET, {
+  return jwt.sign(userForToken, congif.SECRET, {
     expiresIn: '1h'
   })
 }

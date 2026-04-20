@@ -32,7 +32,7 @@ blogRouter.post('/', tokenExtractor, userExtractor, async (request, response) =>
   blog.user = user._id
 
 	const result = await blog.save()
-	response.json(result)
+	response.status(201).json(result)
 
   })
 
@@ -69,17 +69,20 @@ blogRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) 
     likes: request.body.likes
   }
 
-  const result = await Blog.findOneAndUpdate(
-    { _id: id, user: userId }, 
-    updatedBlog,
-    { new: true, runValidators: true }
-  )
+  const blog = await Blog.findById(id)
 
-  if (!result) {
-    return response.status(404).json({ error: 'blog not found or unauthorized' })
-  }
+  if (!blog) {
+  return response.status(404).json({ error: 'blog not found' })
+}
 
-  response.json(result)
+  if (blog.user.toString() !== userId) {
+  return response.status(403).json({ error: 'forbidden' })
+}
+
+  Object.assign(blog, updatedBlog)
+  const saved = await blog.save()
+
+  response.json(saved)
 })
 
 
