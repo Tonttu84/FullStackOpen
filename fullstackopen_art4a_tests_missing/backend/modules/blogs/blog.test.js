@@ -13,16 +13,7 @@ const api = supertest(app)
 
 const initialBlogs = 5;
 
-/*
 
-
-
-4.4: Helper Functions and Unit Tests, step 2
-Define a new totalLikes function that 
-receives a list of blog posts as a parameter. The function returns the total sum of likes in all of the blog posts.
-
-
-*/
 
 beforeAll(async () => {
   await db.connect()
@@ -49,12 +40,7 @@ test('dummy returns one', () => {
 
 describe('total likes', () => {
   
-  
-
   test('when list has only one blog, equals the likes of that', () => {
-
-  
-  
 
     const result = listHelper.totalLikes([blogs[0]])
     expect(result).toBe(7)

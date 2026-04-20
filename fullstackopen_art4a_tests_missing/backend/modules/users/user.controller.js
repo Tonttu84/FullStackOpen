@@ -10,7 +10,7 @@ userRouter.get('/', async (request, response) => {
 	
 	
 	const users = await User.find({})
-	response.json(blog)
+	response.json(users)
 	
   })
 
