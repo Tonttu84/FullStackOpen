@@ -140,7 +140,7 @@ test('blogs have id property instead of _id', async () => {
 	  url: 'http://fakeexample.com'
 	}
   
-	let response
+
 
 try {
   const response = await api
@@ -218,7 +218,7 @@ try {
 
   const id = created.body.id
 
-  const response = await api.get('/api/blogs')
+
 
  await api
   	.delete(`/api/blogs/${id}`)
@@ -255,7 +255,7 @@ test("deleting existing posts is forbidden if you dont own them", async () => {
 
   const id = created.body.id
 
-  const response = await api.get('/api/blogs')
+  
 
   const user2 = users[1]
   const token2 = listHelper.createToken(user2)
@@ -342,7 +342,7 @@ test("Modifying old blogs requires that you own them", async () => {
   const user2 = users[1]
   const token2 = listHelper.createToken(user2)
 
-  const updated = await api
+     await api
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token2}`)
     .send(editedBlog)
@@ -368,7 +368,7 @@ test("Modifying old blogs requires that you own them", async () => {
   }
 
 
-  const updated = await api
+   await api
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
     .send(editedBlog)

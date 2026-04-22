@@ -2,19 +2,24 @@
   "name": "bloglist-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+
   "scripts": {
-		"dev:server": "node --watch backend/index.js",
-		"dev:full": "concurrently \"npm run dev\" \"npm run dev:server\"",
-		"build": "vite build",
-		"lint": "eslint .",
-		"preview": "vite preview",
-		"start": "NODE_ENV=production node backend/index.js",
-		"dev": "NODE_ENV=development node --watch backend/index.js",
-		"test": "NODE_ENV=test jest --runInBand"
-	},
+    "dev:server": "node --watch backend/index.js",
+    "dev:full": "concurrently \"npm run dev\" \"npm run dev:server\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "start": "NODE_ENV=production node backend/index.js",
+    "dev": "vite",
+    "test": "NODE_ENV=test jest --runInBand"
+  },
   "dependencies": {
     "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -23,11 +28,15 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "jest": "^30.3.0",
+    "mongodb-memory-server": "^11.0.1",
+    "supertest": "^7.2.2",
     "vite": "^6.3.5"
   }
 }

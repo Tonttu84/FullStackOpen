@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+//const jwt = require('jsonwebtoken')
 const userRouter = require('express').Router()
 const User = require('./user.model.js')
-const congif = require('../../utils/config')
-const { config } = require('dotenv')
+//const config = require('../../utils/config')
+
 
 
 userRouter.get('/', async (request, response) => {
@@ -45,45 +45,47 @@ userRouter.post('/', async (request, response) => {
 
   })
 
-  userRouter.post('/login', async (request, response) => {
-	const { username, password } = request.body
+  //moved to loginrouter
 
-	if (!username || !password) {
-    return response.status(400).json({
-      error: 'username,  or password missing'
-    })
-  }
-  	 const user = await User.findOne({ username }).select('+passwordHash')
-	 let passwordCheckPassed = false;
+//   userRouter.post('/login', async (request, response) => {
+// 	const { username, password } = request.body
 
-	if (user) 
-	{
-		passwordCheckPassed = await bcrypt.compare(password, user.passwordHash)
-	}
+// 	if (!username || !password) {
+//     return response.status(400).json({
+//       error: 'username,  or password missing'
+//     })
+//   }
+//   	 const user = await User.findOne({ username }).select('+passwordHash')
+// 	 let passwordCheckPassed = false;
 
-	if (!user || passwordCheckPassed !== true)
-	{
-		return response.status(401).json({
-      	error: 'invalid username or password'
-    })
-	}
+// 	if (user) 
+// 	{
+// 		passwordCheckPassed = await bcrypt.compare(password, user.passwordHash)
+// 	}
 
-	 const userForToken = {
-    username: user.username,
-    id: user._id,
-  }
+// 	if (!user || passwordCheckPassed !== true)
+// 	{
+// 		return response.status(401).json({
+//       	error: 'invalid username or password'
+//     })
+// 	}
 
-  	 const token = jwt.sign(
-    userForToken, 
-    config.SECRET,
-    { expiresIn: 60*60 }
-  )
+// 	 const userForToken = {
+//     username: user.username,
+//     id: user._id,
+//   }
 
-	response
-    .status(200)
-    .send({ token, username: user.username, name: user.name })
+//   	 const token = jwt.sign(
+//     userForToken, 
+//     config.SECRET,
+//     { expiresIn: 60*60 }
+//   )
+
+// 	response
+//     .status(200)
+//     .send({ token, username: user.username, name: user.name })
 
 
- })
+//  })
 
 module.exports = userRouter
