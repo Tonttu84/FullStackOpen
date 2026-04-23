@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import User from './components/User'
 
 
 const App = () => {
@@ -11,6 +12,21 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+
+  const handleLogout = () => {
+
+
+  setUser(null)
+
+
+  blogService.setToken(null)
+ 
+
+  localStorage.removeItem('loggedBlogUser')
+  setUsername('')
+  setPassword('')
+
+}
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -35,7 +51,7 @@ const App = () => {
   message: 'Invalid username or password'
 })
     setTimeout(() => setErrorMessage(null), 5000)
-    setUser('')
+    setUser(null)
   }
     
   }
@@ -43,7 +59,7 @@ const App = () => {
   
 
   if (!user) {
-    console.log(errorMessage)
+    
     return (
       <div>
         <h2>Log in to application</h2>
@@ -83,7 +99,8 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-    user.na
+     <User user={user} handleLogout={handleLogout} />
+     <p/>
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />

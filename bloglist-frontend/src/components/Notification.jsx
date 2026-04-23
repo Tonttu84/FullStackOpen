@@ -1,8 +1,6 @@
 
 const Notification = ({ notification }) => {
 
-console.log(`notification is ${notification}`)
-
   if (!notification) return null
 
   return (
