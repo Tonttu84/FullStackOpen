@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
+
 const supertest = require('supertest')
 const app = require('../../app')
-const listHelper = require('../blogs/blog.test.helper')
+
 const Blog = require('../blogs/blog.model')
 const User = require('./user.model')
 const db = require('../blogs/blog.test.database')
@@ -42,7 +42,7 @@ test('a valid user can be created', async () => {
 	  .send(newUser)
 	  .expect(201)
   
-	const response = await api.get('/api/users')
+	await api.get('/api/users')
     .expect(200)
   
 	const usersInDb = await User.find({ username: 'testuser' })
@@ -70,7 +70,7 @@ test('a valid user can be created', async () => {
 	  .send(newUser)
 	  .expect(400)
   
-	const response = await api.get('/api/users')
+	await api.get('/api/users')
     .expect(200)
   
 	const usersInDb = await User.find({ username: 'aa' })
@@ -95,7 +95,7 @@ test('a valid user can be created', async () => {
 	  .send(newUser)
 	  .expect(400)
   
-	const response = await api.get('/api/users')
+	await api.get('/api/users')
     .expect(200)
   
 	const usersInDb = await User.find({ username: 'testuser' })
@@ -121,7 +121,7 @@ test('a valid user can be created', async () => {
 	  .send(newUser)
 	  .expect(201)
   
-	const response = await api.get('/api/users')
+	await api.get('/api/users')
     .expect(200)
   
 	const usersInDb = await User.find({ username: 'testuser' })

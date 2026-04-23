@@ -16,7 +16,9 @@ const createToken = (user) => {
 
 
 const dummy = (blogs) => {
+  void blogs;
   return 1;
+  
 }
 
 const totalLikes = (blogs) => {

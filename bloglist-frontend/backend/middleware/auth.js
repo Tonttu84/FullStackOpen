@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const congif = require('../utils/config')
+const logger = require('../utils/logger')
 
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
@@ -39,6 +40,7 @@ try {
 
     next()
   } catch (error) {
+    void error;
     return response.status(401).json({ error: 'token invalid' })
   }
 }
