@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import User from './components/User'
+import AddBlog from './components/AddBlog'
 
 
 const App = () => {
