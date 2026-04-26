@@ -1,0 +1,46 @@
+Hello, you can do so by creating a repository and grouping each exercises by the part and name of excercise for instance your repo structure could look like:
+
+```
+|-- part0
+|-- part1
+|   |-- anecdotes
+|   |-- courseinfo
+|   `-- unicafe
+|-- part2
+|   |-- countries-data
+|   |-- courseinfo
+|   `-- phonebook
+|-- part3
+|   |-- phonebook-frontend
+|   `-- phonebook-backend
+|-- part4
+|   `-- bloglist
+|-- part5
+|   |-- bloglist-backend
+|   |-- bloglist-frontend
+|   |-- node_modules
+|   |-- playwright-report
+|   |-- test-results
+|   `-- tests
+|-- part6
+|   |-- anecdotes-query
+|   |-- anecdotes-redux
+|   `-- unicafe-redux
+|-- part7
+|   |-- bloglist-extended
+|   |-- country-hook
+|   |-- routed-anecdotes
+|   `-- ultimate-hooks
+|-- part8
+|   |-- library-frontend
+|   `-- library-backend
+`-- part9
+    |-- WebExercises
+    |-- courseinfo-ts
+    |-- flight-diary
+    `-- patientor
+``` 
+
+The first 9 parts can be in the same repo, but you should create seperate repos from part 10 - 13 
+
+In the github url field of the submission form you can copy the URL of the repo e.g github.com/<username>/fullstackopen. (Not the URL of individual parts)
