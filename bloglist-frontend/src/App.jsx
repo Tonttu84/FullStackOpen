@@ -29,10 +29,13 @@ const App = () => {
 
 }
 
+const refreshBlogs = async () => {
+	const blogs = await blogService.getAll()
+	setBlogs(blogs)
+  }
+
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    refreshBlogs()
   }, [])
 
   const handleLogin = async (event) => {
@@ -41,7 +44,7 @@ const App = () => {
     const response = await loginService.login({username, password})
     console.log(response)
 
-    setUser(response) // or response.user or whatever you return
+    setUser(response) 
     localStorage.setItem('loggedBlogUser', JSON.stringify(response));
     blogService.setToken(response.token)
   } catch (error) {
@@ -102,6 +105,7 @@ const App = () => {
 
      <User user={user} handleLogout={handleLogout} />
      <p/>
+	 <AddBlog refreshBlogs={refreshBlogs} />
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
