@@ -7,10 +7,19 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
+      host: 'localhost',
+      port: 5173,
+
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 5173,
+      },
+
       proxy: {
         '/api': {
           target: `http://localhost:${env.VITE_BACKEND_PORT}`,
-          changeOrigin: true
+          changeOrigin: true,
         }
       }
     }

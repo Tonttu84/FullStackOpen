@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
+import Notification from './Notification'
 
 
 const AddBlog = ({ refreshBlogs }) =>  {
+
+	const [notificationMessage, setNotificationMessage] = useState(null)
+
+
+
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
+
+	
   
 	const addtoBackend = async (event) => {
 	  event.preventDefault()
@@ -17,18 +25,40 @@ const AddBlog = ({ refreshBlogs }) =>  {
 		await refreshBlogs()
 		console.log('Created blog:', createdBlog)
   
-		setTitle('')
-		setAuthor('')
-		setUrl('')
+		
+
+		setNotificationMessage({
+			type: 'success',
+			message: `${title} by ${author} added`
+		  })
+		  setTimeout(() => setNotificationMessage(null), 5000)
+
+		  setTitle('')
+		  setAuthor('')
+		  setUrl('')  
+
 		
 	  } catch (error) {
 		console.error('Error creating blog:', error)
+		setNotificationMessage({
+			type: 'error',
+			message: 'Failed to add blog'
+		  })
+			  setTimeout(() => setNotificationMessage(null), 5000)
+			  setTitle('')
+			setAuthor('')
+			setUrl('')
 	  }
 	}
   
 	return (
 	  <div>
+
+		<p></p>
+
 		<h2>create new</h2>
+
+		<Notification notification={notificationMessage} />
   
 		<form onSubmit={addtoBackend}>
 		  <div>
