@@ -7,6 +7,7 @@ const AddBlog = ({ refreshBlogs }) =>  {
 
 	const [notificationMessage, setNotificationMessage] = useState(null)
 
+	const [showAdd, setShowAdd] = useState(false)
 
 
 	const [title, setTitle] = useState('')
@@ -50,7 +51,9 @@ const AddBlog = ({ refreshBlogs }) =>  {
 			setUrl('')
 	  }
 	}
-  
+
+	if (showAdd == true)
+	{
 	return (
 	  <div>
 
@@ -90,8 +93,20 @@ const AddBlog = ({ refreshBlogs }) =>  {
   
 		  <button type="submit">create</button>
 		</form>
+		<button onClick={() => setShowAdd(false)}>
+		cancel
+		</button>
 	  </div>
+	  
 	)
-  }
+	}
+	
+	return (
+		<button onClick={() => setShowAdd(true)}>
+		create new blog
+		</button>
+	)
+	
+}
 
 export default AddBlog
