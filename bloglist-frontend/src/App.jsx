@@ -1,33 +1,40 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login'
-import Notification from './components/Notification'
+
+
 import User from './components/User'
 import AddBlog from './components/AddBlog'
+import Login from './components/Login'
 
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+ 
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+
 
   const handleLogout = () => {
 
-
   setUser(null)
-
-
   blogService.setToken(null)
- 
 
   localStorage.removeItem('loggedBlogUser')
-  setUsername('')
-  setPassword('')
+
 
 }
+
+const deleteBlog = async (blog) => {
+	console.log('BLOG ID at deleteBlog:', blog.id)
+	
+	try {
+	  await blogService.deleteBlog(blog)
+  
+	  setBlogs(blogs.filter(b => b.id !== blog.id))
+	} catch (error) {
+	  console.error('delete failed', error)
+	}
+  }
 
 const refreshBlogs = async () => {
 	const blogs = await blogService.getAll()
@@ -38,29 +45,29 @@ const refreshBlogs = async () => {
     refreshBlogs()
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-   try {
-    const response = await loginService.login({username, password})
-    console.log(response)
+  const handleLike = async (blog) => {
+	console.log(blog)
+	console.log(blog.id)
 
-    setUser(response) 
-    localStorage.setItem('loggedBlogUser', JSON.stringify(response));
-    blogService.setToken(response.token)
-  } catch (error) {
-    console.error('login failed', error)
+	const updatedBlog = {
+		...blog,
+		likes: (blog.likes || 0) + 1
+	  }
 
-    setErrorMessage({
-  type: 'error',
-  message: 'Invalid username or password'
-})
-    setTimeout(() => setErrorMessage(null), 5000)
-    setUser(null)
-  }
-    
+	  delete updatedBlog.user
+
+	  const returnedBlog = await blogService.like(updatedBlog)
+
+	setBlogs(prev =>
+  prev.map(b =>
+    b.id === blog.id
+      ? returnedBlog
+      : b
+	)
+	)
   }
   
-  
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
   if (!user) {
     
@@ -69,31 +76,9 @@ const refreshBlogs = async () => {
         <h2>Log in to application</h2>
 
       
-      <Notification notification={errorMessage} />
-
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>
-              username
-              <input
-              type = 'text'
-              value={username}
-              onChange={({target}) => setUsername(target.value)}
-              />
-            </label>
-            </div>
-            <div>
-              <label>
-                password
-                <input
-                type = "password"
-                value = {password}
-                onChange={({target}) => setPassword(target.value)}
-                />
-              </label>
-            </div>
-            <button type="submit">login</button>
-          </form>
+      
+		<Login setUser={setUser} />
+        
       </div>
 
     )
@@ -107,8 +92,8 @@ const refreshBlogs = async () => {
      <p/>
 	 <AddBlog refreshBlogs={refreshBlogs} />
 
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      {sortedBlogs.map(blog =>
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} deleteBlog={deleteBlog} user={user} />
       )}
     </div>
   )

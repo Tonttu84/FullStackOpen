@@ -10,6 +10,7 @@ blogRouter.get('/', async (request, response) => {
 	
 	
 	const blogs = await Blog.find({})
+	.populate('user', { username: 1, name: 1 })
 	response.json(blogs)
 	
   })
@@ -61,28 +62,47 @@ blogRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) 
   const { id } = request.params
   const userId = request.userId
 
-  const updatedBlog = {
-    title: request.body.title,
-    author: request.body.author,
-    url: request.body.url,
-    likes: request.body.likes
-  }
-
+  
   const blog = await Blog.findById(id)
 
   if (!blog) {
+	console.log('blog.user:', blog.user.toString())
+	console.log('request.userId:', userId)
   return response.status(404).json({ error: 'blog not found' })
 }
 
-  if (blog.user.toString() !== userId) {
-  return response.status(403).json({ error: 'forbidden' })
-}
+const isOwner = blog.user.toString() === userId
 
-  Object.assign(blog, updatedBlog)
+if (isOwner) {
+	blog.title = request.body.title
+	blog.author = request.body.author
+	blog.url = request.body.url
+	blog.likes = request.body.likes
+  } else {
+	blog.likes = request.body.likes
+  }
+
   const saved = await blog.save()
+  await saved.populate('user', { username: 1, name: 1 })
 
   response.json(saved)
 })
+
+blogRouter.post('/:id/like', tokenExtractor, async (req, res) => {
+	const { id } = req.params
+  
+	const blog = await Blog.findByIdAndUpdate(
+	  id,
+	  { $inc: { likes: 1 } },
+	  { new: true }
+	)
+  
+	if (!blog) {
+	  return res.status(404).json({ error: 'not found' })
+	}
+  
+	res.json(blog)
+  })
 
 
 module.exports = blogRouter
