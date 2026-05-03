@@ -2,7 +2,6 @@
   "name": "bloglist-frontend",
   "private": true,
   "version": "0.0.0",
-
   "scripts": {
     "dev:server": "node --watch backend/index.js",
     "dev:full": "concurrently \"npm run dev\" \"npm run dev:server\"",
