@@ -1,9 +1,14 @@
-import { useAnecdoteActions } from '../store'
+import  useAnecdoteStore  from '../stores/store'
+import useNotification from '../stores/notification'
 
 const AnecdoteForm = () =>
 {
 
-    const actions = useAnecdoteActions()
+   
+    const actions = useAnecdoteStore((state) => state.actions);
+    const setNotification = useNotification(
+    (state) => state.setNotification
+  );
 
     const addAnecdote = (event) =>
     {
@@ -12,6 +17,7 @@ const AnecdoteForm = () =>
         if (content)
         {
             actions.addAnecdote(content)
+            setNotification(`You added ${content}`, "success");
         }
         event.target.reset()
         

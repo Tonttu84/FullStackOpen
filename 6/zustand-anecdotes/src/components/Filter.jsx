@@ -1,7 +1,8 @@
-import { useAnecdoteActions } from '../store'
+import  useAnecdoteStore  from '../stores/store'
 
 const Filter = () => {
-  const setFilter = useAnecdoteActions().setFilter
+  
+  const setFilter = useAnecdoteStore((state) => state.actions.setFilter);
   const handleChange = (event) =>
   {
     setFilter(event.target.value)

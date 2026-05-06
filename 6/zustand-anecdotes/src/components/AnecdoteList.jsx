@@ -1,10 +1,12 @@
-import { useAnecdotes, useAnecdoteActions, useFilter } from '../store'
+import  useAnecdoteStore  from '../stores/store'
+
 
 const AnecdoteList = () =>
 {
-  const { increaseVotes } = useAnecdoteActions()
-   const anecdotes = useAnecdotes()
-   const filter = useFilter()
+  const  increaseVotes  = useAnecdoteStore((state) => state.actions.increaseVotes);
+   const anecdotes = useAnecdoteStore((state) => state.anecdotes);
+   const filter = useAnecdoteStore((state) => state.filter);
+   const  deleteAnecdote  = useAnecdoteStore((state) => state.actions.deleteAnecdote);
 
    const sortedAndFiltered = anecdotes
     .filter(a =>
@@ -12,14 +14,21 @@ const AnecdoteList = () =>
     )
     .toSorted((a, b) => b.votes - a.votes)
 
+    console.dir(anecdotes)
+
   return(
+
     <>
+
         {sortedAndFiltered.map(anecdote => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => increaseVotes(anecdote.id)}>vote</button>
+            <button onClick={() => increaseVotes(anecdote)}>vote</button>
+            {!anecdote.votes &&
+            <button onClick={() => deleteAnecdote(anecdote)}>delete</button>
+            } 
           </div>
         </div>
       ))}
