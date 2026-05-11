@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
+import { useState } from 'react'
+
 
 const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 	const [showAll, setShowAll] = useState(false)

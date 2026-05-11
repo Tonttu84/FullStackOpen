@@ -21,7 +21,14 @@ export default defineConfig(({ mode }) => {
           target: `http://localhost:${env.VITE_BACKEND_PORT}`,
           changeOrigin: true,
         }
-      }
+      },
+
+	test: {
+		environment: 'jsdom',
+		globals: true,
+		setupFiles: './testSetup.js', 
+	}
+
     }
   }
 })
