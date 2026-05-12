@@ -15,6 +15,11 @@ export default defineConfig(({ mode }) => {
         host: 'localhost',
         port: 5173,
       },
+      test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './testSetup.js', 
+  },
 
       proxy: {
         '/api': {
