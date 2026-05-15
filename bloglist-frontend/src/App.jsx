@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-
-
 import User from './components/User'
 import AddBlog from './components/AddBlog'
 import Login from './components/Login'
@@ -10,64 +8,50 @@ import Login from './components/Login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
- 
   const [user, setUser] = useState(null)
-
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const handleLogout = () => {
 
   setUser(null)
   blogService.setToken(null)
-
   localStorage.removeItem('loggedBlogUser')
 
+ 
 
-}
 
+	}
 
-	const addtoBackend = async (event) => {
-	  event.preventDefault()
-  
-	  const newBlog = { title, author, url }
-  
-	  
+	const createBlog = async (newBlog) => {
+		try {
+		  const createdBlog = await blogService.create(newBlog)
+	
+		  await refreshBlogs()
+	
+		  console.log('Created blog:', createdBlog)
 
-	  try {
-		const createdBlog = await blogService.create(newBlog)
-		await refreshBlogs()
-		console.log('Created blog:', createdBlog)
-  
-		
-
-		setNotificationMessage({
+		  setNotificationMessage({
 			type: 'success',
-			message: `${title} by ${author} added`
+			message: `${createdBlog.title || 'Unknown title'} by ${createdBlog.author || 'Unknown author'} added`
 		  })
+		  console.log('Notification set to :', notificationMessage)
 		  setTimeout(() => setNotificationMessage(null), 5000)
 
-		  setTitle('')
-		  setAuthor('')
-		  setUrl('')  
-
-		
-	  } catch (error) {
-		console.error('Error creating blog:', error)
-		setNotificationMessage({
+	
+		} catch (error) {
+		  console.error('Error creating blog:', error)
+		  setNotificationMessage({
 			type: 'error',
 			message: 'Failed to add blog'
 		  })
 			  setTimeout(() => setNotificationMessage(null), 5000)
-			  setTitle('')
-			setAuthor('')
-			setUrl('')
+			
+		}
 	  }
-	}
-
-
 
 
 const deleteBlog = async (blog) => {
-	console.log('BLOG ID at deleteBlog:', blog.id)
+	
 	
 	try {
 	  await blogService.deleteBlog(blog)
@@ -78,18 +62,16 @@ const deleteBlog = async (blog) => {
 	}
   }
 
-const refreshBlogs = async () => {
-	const blogs = await blogService.getAll()
-	setBlogs(blogs)
-  }
+	const refreshBlogs = async () => {
+		const blogs = await blogService.getAll()
+		setBlogs(blogs)
+	}
 
-  useEffect(() => {
-    refreshBlogs()
-  }, [])
+	useEffect(() => {
+		refreshBlogs()
+	}, [])
 
   const handleLike = async (blog) => {
-	console.log(blog)
-	console.log(blog.id)
 
 	const updatedBlog = {
 		...blog,
@@ -132,7 +114,9 @@ const refreshBlogs = async () => {
 
      <User user={user} handleLogout={handleLogout} />
      <p/>
-	 <AddBlog addtoBackend={addtoBackend} />
+	 <AddBlog createBlog={createBlog} 
+	 	notifMessage={notificationMessage}
+	 />
 
       {sortedBlogs.map(blog =>
         <Blog key={blog.id} blog={blog} handleLike={handleLike} deleteBlog={deleteBlog} user={user} />

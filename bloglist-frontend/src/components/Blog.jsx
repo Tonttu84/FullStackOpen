@@ -12,12 +12,7 @@ const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 		marginBottom: 5
 	  }
 
-	  console.log(blog.user)
-	  console.log(blog.user.username)
-	  console.log(user)
-	  console.log(user.username)
-	  console.log('This is the blog at components', blog)
-	  console.log('BLOG ID:', blog.id)
+	
 
 	return(
   <div style={blogStyle}>

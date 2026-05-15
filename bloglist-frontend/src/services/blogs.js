@@ -40,7 +40,6 @@ const like = async (blog) => {
 	const config = {
 	  headers: { Authorization: token }
 	}
-	console.log(blog)
   
 	const response = await axios.delete(
 		`${baseUrl}/${blog.id}`,

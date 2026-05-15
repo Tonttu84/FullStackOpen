@@ -3,10 +3,10 @@ import AddBlog from './components/AddBlog'
 import userEvent from '@testing-library/user-event'
 
 test('<Addblog /> calls the event handler it received as props with the right details when a new blog is created', async () => {
-  const refreshBlogs = vi.fn()
+  const mockCreate = vi.fn()
   const user = userEvent.setup()
 
-  render(<AddBlog refreshBlogs={refreshBlogs} />)
+  render(<AddBlog createBlog={mockCreate} />)
 
   const input = screen.getByRole('textbox')
   const sendButton = screen.getByText('save')

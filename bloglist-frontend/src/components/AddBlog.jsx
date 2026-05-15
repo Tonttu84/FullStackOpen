@@ -4,9 +4,9 @@ import Notification from './Notification'
 
 
 
-const AddBlog = ({ addtoBackend }) =>  {
+const AddBlog = ({ createBlog, notifMessage }) =>  {
 
-	const [notificationMessage, setNotificationMessage] = useState(null)
+	
 
 	const [showAdd, setShowAdd] = useState(false)
 
@@ -15,7 +15,19 @@ const AddBlog = ({ addtoBackend }) =>  {
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
 
+	const handleSubmit = (event) => {
+		event.preventDefault()
 	
+		createBlog({
+		  title,
+		  author,
+		  url
+		})
+	
+		setTitle('')
+		setAuthor('')
+		setUrl('')
+	  }
   
 
 	if (showAdd == true)
@@ -27,9 +39,9 @@ const AddBlog = ({ addtoBackend }) =>  {
 
 		<h2>create new</h2>
 
-		<Notification notification={notificationMessage} />
+		<Notification notification={notifMessage} />
   
-		<form onSubmit={addtoBackend}>
+		<form onSubmit={handleSubmit}>
 		  <div>
 			title
 			<input
