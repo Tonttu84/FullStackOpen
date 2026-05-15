@@ -4,7 +4,7 @@ import Notification from './Notification'
 
 
 
-const AddBlog = ({ refreshBlogs }) =>  {
+const AddBlog = ({ addtoBackend }) =>  {
 
 	const [notificationMessage, setNotificationMessage] = useState(null)
 
@@ -17,41 +17,6 @@ const AddBlog = ({ refreshBlogs }) =>  {
 
 	
   
-	const addtoBackend = async (event) => {
-	  event.preventDefault()
-  
-	  const newBlog = { title, author, url }
-  
-	  try {
-		const createdBlog = await blogService.create(newBlog)
-		await refreshBlogs()
-		console.log('Created blog:', createdBlog)
-  
-		
-
-		setNotificationMessage({
-			type: 'success',
-			message: `${title} by ${author} added`
-		  })
-		  setTimeout(() => setNotificationMessage(null), 5000)
-
-		  setTitle('')
-		  setAuthor('')
-		  setUrl('')  
-
-		
-	  } catch (error) {
-		console.error('Error creating blog:', error)
-		setNotificationMessage({
-			type: 'error',
-			message: 'Failed to add blog'
-		  })
-			  setTimeout(() => setNotificationMessage(null), 5000)
-			  setTitle('')
-			setAuthor('')
-			setUrl('')
-	  }
-	}
 
 	if (showAdd == true)
 	{

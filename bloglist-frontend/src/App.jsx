@@ -24,6 +24,48 @@ const App = () => {
 
 }
 
+
+	const addtoBackend = async (event) => {
+	  event.preventDefault()
+  
+	  const newBlog = { title, author, url }
+  
+	  
+
+	  try {
+		const createdBlog = await blogService.create(newBlog)
+		await refreshBlogs()
+		console.log('Created blog:', createdBlog)
+  
+		
+
+		setNotificationMessage({
+			type: 'success',
+			message: `${title} by ${author} added`
+		  })
+		  setTimeout(() => setNotificationMessage(null), 5000)
+
+		  setTitle('')
+		  setAuthor('')
+		  setUrl('')  
+
+		
+	  } catch (error) {
+		console.error('Error creating blog:', error)
+		setNotificationMessage({
+			type: 'error',
+			message: 'Failed to add blog'
+		  })
+			  setTimeout(() => setNotificationMessage(null), 5000)
+			  setTitle('')
+			setAuthor('')
+			setUrl('')
+	  }
+	}
+
+
+
+
 const deleteBlog = async (blog) => {
 	console.log('BLOG ID at deleteBlog:', blog.id)
 	
@@ -90,7 +132,7 @@ const refreshBlogs = async () => {
 
      <User user={user} handleLogout={handleLogout} />
      <p/>
-	 <AddBlog refreshBlogs={refreshBlogs} />
+	 <AddBlog addtoBackend={addtoBackend} />
 
       {sortedBlogs.map(blog =>
         <Blog key={blog.id} blog={blog} handleLike={handleLike} deleteBlog={deleteBlog} user={user} />
