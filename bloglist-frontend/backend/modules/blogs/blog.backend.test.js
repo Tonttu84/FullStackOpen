@@ -312,7 +312,7 @@ test("Modifying old blogs works", async () => {
   expect(updated.body.likes).toBe(2)
 })
 
-test("Modifying old blogs requires that you own them", async () => {
+test("Non-owner cannot modify blog content", async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -350,8 +350,46 @@ test("Modifying old blogs requires that you own them", async () => {
 
 })
 
+test("Non-owner can change likes", async () => {
 
-test("Modifying old blogs requires that you own them", async () => {
+	const users = await User.find({})
+	const user = users[0]
+	const token = listHelper.createToken(user)
+  
+	const newBlog = {
+	  title: 'extra new new blogg',
+	  author: 'Metootiiii',
+	  url: 'http://fakeexampleeeee.comm'
+	}
+  
+	const created = await api
+	  .post('/api/blogs')
+	  .set('Authorization', `Bearer ${token}`)
+	  .send(newBlog)
+	  .expect(201)
+  
+	const id = created.body.id
+  
+	const editedBlog = {
+	  title: 'extra new new blogg',
+	  author: 'Metootiiii',
+	  url: 'http://fakeexampleeeee.comm',
+	  likes: 2
+	}
+  
+	const user2 = users[1]
+	const token2 = listHelper.createToken(user2)
+  
+	   await api
+	  .put(`/api/blogs/${id}`)
+	  .set('Authorization', `Bearer ${token2}`)
+	  .send(editedBlog)
+	  .expect(200)
+  
+  })
+
+
+test("Modifying nonexistent blog returns 404", async () => {
 
   const users = await User.find({})
   const user = users[0]

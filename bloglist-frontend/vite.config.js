@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+
     server: {
       host: 'localhost',
       port: 5173,
@@ -15,25 +16,19 @@ export default defineConfig(({ mode }) => {
         host: 'localhost',
         port: 5173,
       },
-      test: {
-    environment: 'jsdom',
-    globals: true,
-    setupFiles: './testSetup.js', 
-  },
 
       proxy: {
         '/api': {
           target: `http://localhost:${env.VITE_BACKEND_PORT}`,
           changeOrigin: true,
         }
-      },
+      }
+    },
 
-	test: {
-		environment: 'jsdom',
-		globals: true,
-		setupFiles: './testSetup.js', 
-	}
-
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      
     }
   }
 })

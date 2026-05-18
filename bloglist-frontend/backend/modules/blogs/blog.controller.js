@@ -66,8 +66,8 @@ blogRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) 
   const blog = await Blog.findById(id)
 
   if (!blog) {
-	console.log('blog.user:', blog.user.toString())
-	console.log('request.userId:', userId)
+	console.log('blog.user:', blog?.user?.toString() || 'missing user')
+	console.log('request.userId:', (userId || 'invalid id' ))
   return response.status(404).json({ error: 'blog not found' })
 }
 
@@ -79,6 +79,10 @@ if (isOwner) {
 	blog.url = request.body.url
 	blog.likes = request.body.likes
   } else {
+	if (blog.title != request.body.title || blog.author != request.body.author || blog.url != request.body.url )
+	{
+		return response.status(403).json({ error: 'Edit not authorized' })
+	}
 	blog.likes = request.body.likes
   }
 
