@@ -1,15 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import AddBlog from './components/AddBlog'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 
 test('<Addblog /> calls the event handler it received as props with the right details when a new blog is created', async () => {
   const mockCreate = vi.fn()
   const user = userEvent.setup()
 
   render(<AddBlog createBlog={mockCreate} />)
-
-  const input = screen.getByRole('textbox')
-  const sendButton = screen.getByText('save')
 
   const openButton = screen.getByText('create new blog')
   await user.click(openButton)
@@ -24,5 +22,13 @@ test('<Addblog /> calls the event handler it received as props with the right de
 
   const createButton = screen.getByText('create')
   await user.click(createButton)
+
+  expect(mockCreate).toHaveBeenCalledTimes(1)
+
+expect(mockCreate).toHaveBeenCalledWith({
+  title: 'React Testing',
+  author: 'Matti',
+  url: 'www.test.com'
+})
 
 })
