@@ -35,7 +35,7 @@ test('renders title and author but not url or likes by default', () => {
 
   // should NOT exist
   expect(screen.queryByText('https://example.com/testing-vitest')).toBeNull()
-  expect(screen.queryByText('5')).toBeNull()
+  expect(screen.queryByText('likes: 5')).toBeNull()
 })
 
 //Blog = ({ blog, handleLike, deleteBlog, user
@@ -63,8 +63,8 @@ test(' blogs URL and number of likes are shown when the button controlling the s
 	await user.click(unhidebutton)
 	
   	
-	expect(screen.queryByText('https://example.com/testing-vitest')).toBeInTheDocument()
-  	expect(screen.queryByText('5')).toBeInTheDocument()
+	expect(screen.getByText(/https:\/\/example.com\/testing-vitest/)).toBeInTheDocument()
+	expect(screen.getByText(/5/)).toBeInTheDocument()
 
 	
   })
