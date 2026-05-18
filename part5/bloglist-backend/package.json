@@ -7,7 +7,7 @@
 	"scripts": {
   "dev": "node --watch index.js",
   "start": "NODE_ENV=production node index.js",
-  "test": "vitest run --environment node"
+  "test": "node --test"
 },
 	"dependencies": {
 	  "express": "^5.2.1",

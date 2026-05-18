@@ -13,49 +13,45 @@ const api = supertest(app)
 
 const initialBlogs = 5
 
+test('blog backend tests', async (t) => {
 
-
-test.before(async () => {
+await t.before(async () => {
 	await db.connect()
   })
   
-  test.beforeEach(async () => {
+  await t.beforeEach(async () => {
 	await db.clearDatabase()
 	await db.seedDatabase()
   })
   
-  test.after(async () => {
+  await t.after(async () => {
 	await db.closeDatabase()
   })
 
 
-test('dummy returns one', () => {
+  await t.test('dummy returns one', () => {
   const blogs = []
 
   const result = listHelper.dummy(blogs)
   assert.strictEqual(result, 1)
 })
 
-describe('total likes', () => {
-  
-  test('when list has only one blog, equals the likes of that', () => {
+await t.test('total likes', async (t) => {
 
-    const result = listHelper.totalLikes([blogs[0]])
-	assert.strictEqual(result, 7)
+	await t.test('when list has only one blog, equals the likes of that', () => {
+	  const result = listHelper.totalLikes([blogs[0]])
+	  assert.strictEqual(result, 7)
+	})
+  
+	await t.test('It works with multiple blogs too', () => {
+	  const result = listHelper.totalLikes(blogs)
+	  assert.strictEqual(result, 36)
+	})
+  
   })
 
 
-  test('It works with multiple blogs too', () => {
-
-    const result = listHelper.totalLikes(blogs)
-	assert.strictEqual(result, 36)
-
-     })
-
-})
-
-
-test('I can find the author with most blogs', () => {
+  await t.test('I can find the author with most blogs', () => {
 
     const result = listHelper.mostBlogs(blogs)
 	assert.deepStrictEqual(result, {
@@ -65,7 +61,7 @@ test('I can find the author with most blogs', () => {
 
      })
 
-test('I can find the author with most likes in all blogs', () => {
+	 await t.test('I can find the author with most likes in all blogs', () => {
 
     const result = listHelper.mostLikes(blogs)
     assert.deepStrictEqual(result, {
@@ -76,20 +72,22 @@ test('I can find the author with most likes in all blogs', () => {
      })     
 
 
-test('notes are returned as json',  async () => {
+	 await t.test('notes are returned as json',  async () => {
 
 
-  const response = await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+  const response = await api.get('/api/blogs')
+    assert.strictEqual(response.status, 200)
+    assert.match(
+		response.headers['content-type'],
+		/application\/json/
+	  )
 
-	assert.strictEqual(result, initialBlogs)
+	assert.strictEqual(response.body.length, initialBlogs)
 	
 })
 
 
-test('blogs have id property instead of _id', async () => {
+await t.test('blogs have id property instead of _id', async () => {
 	const response = await api.get('/api/blogs')
   
 	response.body.forEach(blog => {
@@ -100,7 +98,7 @@ test('blogs have id property instead of _id', async () => {
 
 
 
-  test('a valid blog owned by the user can be added and it increases the size by one', async () => {
+  await t.test('a valid blog owned by the user can be added and it increases the size by one', async () => {
 
 
 
@@ -116,18 +114,19 @@ test('blogs have id property instead of _id', async () => {
 	  url: 'http://example.com'
 	}
   
-	await api
-	  .post('/api/blogs')
+	const response = await api.post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .assert.strictEqual(response.status, 201)
+	
+	assert.strictEqual(response.status, 201)
   
-	const response = await api.get('/api/blogs')
+	const response2 = await api.get('/api/blogs')
   
-	expect(response.body.length).toBe(initialBlogs + 1)
+	assert.strictEqual(response2.body.length, initialBlogs + 1)
+	
   })
 
-  test('if likes is missing, it defaults to zero', async () => {
+  await t.test('if likes is missing, it defaults to zero', async () => {
 	
   const users = await User.find({})
   const user = users[0]
@@ -146,9 +145,9 @@ try {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .assert.strictEqual(response.status, 201) 
+    assert.strictEqual(response.status, 201) 
     
-  expect(response.body.likes).toBe(0)
+  assert.strictEqual(response.body.likes, 0)
     } catch (error) {
       console.log('Full error:', error)
       console.log('Message:', error.message)
@@ -159,7 +158,7 @@ try {
 	
   })
 
-  test('missing title returns 400', async () => {
+  await t.test('missing title returns 400', async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -171,14 +170,14 @@ try {
 	  url: 'http://fakefakeexample.com'
 	}
   
-	await api
+	const response = await api
 	  .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .assert.strictEqual(response.status, 400)
+	  assert.strictEqual(response.status, 400)
   })
   
-  test('missing url returns 400', async () => {
+  await t.test('missing url returns 400', async () => {
   
   const users = await User.find({})
   const user = users[0]
@@ -189,15 +188,15 @@ try {
 	  title: 'myTitle'
 	}
   
-	await api
+	const response = await api
 	  .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .assert.strictEqual(response.status, 400)
+	  assert.strictEqual(response.status, 400)
   })
 
 
-  test("deleting existing posts work", async () => {
+  await t.test("deleting existing posts work", async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -213,16 +212,16 @@ try {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .assert.strictEqual(response.status, 201)
+    assert.strictEqual(created.status, 201)
 
   const id = created.body.id
 
 
 
- await api
+ const response = await api
   	.delete(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
-    .assert.strictEqual(response.status, 204)
+    assert.strictEqual(response.status, 204)
 
   const responseAfterDelete = await api.get('/api/blogs')
 
@@ -235,7 +234,7 @@ try {
 })
 
 
-test("deleting existing posts is forbidden if you dont own them", async () => {
+await t.test("deleting existing posts is forbidden if you dont own them", async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -251,7 +250,7 @@ test("deleting existing posts is forbidden if you dont own them", async () => {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .assert.strictEqual(response.status, 201)
+	assert.strictEqual(created.status, 201)
 
   const id = created.body.id
 
@@ -260,10 +259,10 @@ test("deleting existing posts is forbidden if you dont own them", async () => {
   const user2 = users[1]
   const token2 = listHelper.createToken(user2)
 
- await api
+ const response = await api
   	.delete(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token2}`)
-    .assert.strictEqual(response.status, 403)
+	assert.strictEqual(response.status, 403)
 
   const responseAfterDelete = await api.get('/api/blogs')
 
@@ -276,7 +275,7 @@ test("deleting existing posts is forbidden if you dont own them", async () => {
 })
 
 
-test("Modifying old blogs works", async () => {
+await t.test("Modifying old blogs works", async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -292,7 +291,7 @@ test("Modifying old blogs works", async () => {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-	.assert.strictEqual(response.status, 201)
+	assert.strictEqual(created.status, 201)
 
   const id = created.body.id
 
@@ -307,15 +306,15 @@ test("Modifying old blogs works", async () => {
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
     .send(editedBlog)
-    .assert.strictEqual(response.status, 200)
+    assert.strictEqual(updated.status, 200)
 
   
   assert.strictEqual(updated.body.title, 'updated title')
   
-  assert.strictEqual(updated.body.likes.status, 2)
+  assert.strictEqual(updated.body.likes, 2)
 })
 
-test("Non-owner cannot modify blog content", async () => {
+await t.test("Non-owner cannot modify blog content", async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -331,7 +330,7 @@ test("Non-owner cannot modify blog content", async () => {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .assert.strictEqual(response.status, 201)
+    assert.strictEqual(created.status, 201)
 
   const id = created.body.id
 
@@ -345,15 +344,15 @@ test("Non-owner cannot modify blog content", async () => {
   const user2 = users[1]
   const token2 = listHelper.createToken(user2)
 
-     await api
+    const response = await api
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token2}`)
     .send(editedBlog)
-    .assert.strictEqual(response.status, 403)
+    assert.strictEqual(response.status, 403)
 
 })
 
-test("Non-owner can change likes", async () => {
+await t.test("Non-owner can change likes", async () => {
 
 	const users = await User.find({})
 	const user = users[0]
@@ -369,7 +368,7 @@ test("Non-owner can change likes", async () => {
 	  .post('/api/blogs')
 	  .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .assert.strictEqual(response.status, 201)
+	  assert.strictEqual(created.status, 201)
   
 	const id = created.body.id
   
@@ -383,16 +382,16 @@ test("Non-owner can change likes", async () => {
 	const user2 = users[1]
 	const token2 = listHelper.createToken(user2)
   
-	   await api
+	   const response = await api
 	  .put(`/api/blogs/${id}`)
 	  .set('Authorization', `Bearer ${token2}`)
 	  .send(editedBlog)
-	  .assert.strictEqual(response.status, 200)
+		assert.strictEqual(response.status, 200)
   
   })
 
 
-test("Modifying nonexistent blog returns 404", async () => {
+  await t.test("Modifying nonexistent blog returns 404", async () => {
 
   const users = await User.find({})
   const user = users[0]
@@ -409,11 +408,13 @@ test("Modifying nonexistent blog returns 404", async () => {
   }
 
 
-   await api
+   const response = await api
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
     .send(editedBlog)
-    .assert.strictEqual(response.status, 404)
+    assert.strictEqual(response.status, 404)
 
  
+})
+
 })
