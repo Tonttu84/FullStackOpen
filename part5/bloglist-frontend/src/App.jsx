@@ -28,18 +28,18 @@ const App = () => {
 	
 		  await refreshBlogs()
 	
-		  console.log('Created blog:', createdBlog)
+		  //console.log('Created blog:', createdBlog)
 
 		  setNotificationMessage({
 			type: 'success',
 			message: `${createdBlog.title || 'Unknown title'} by ${createdBlog.author || 'Unknown author'} added`
 		  })
-		  console.log('Notification set to :', notificationMessage)
+		  //console.log('Notification set to :', notificationMessage)
 		  setTimeout(() => setNotificationMessage(null), 5000)
 
 	
 		} catch (error) {
-		  console.error('Error creating blog:', error)
+		  //console.error('Error creating blog:', error)
 		  setNotificationMessage({
 			type: 'error',
 			message: 'Failed to add blog'

@@ -66,8 +66,8 @@ blogRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) 
   const blog = await Blog.findById(id)
 
   if (!blog) {
-	console.log('blog.user:', blog?.user?.toString() || 'missing user')
-	console.log('request.userId:', (userId || 'invalid id' ))
+	//console.log('blog.user:', blog?.user?.toString() || 'missing user')
+	//console.log('request.userId:', (userId || 'invalid id' ))
   return response.status(404).json({ error: 'blog not found' })
 }
 

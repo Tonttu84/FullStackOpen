@@ -10,7 +10,7 @@ const seed = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI)
 
-    console.log('Connected to MongoDB')
+    //console.log('Connected to MongoDB')
 
     // Clear existing data (optional)
     await User.deleteMany({})
@@ -44,7 +44,7 @@ const seed = async () => {
       await user.save()
     }
 
-    console.log('Database seeded successfully')
+    //console.log('Database seeded successfully')
 
   } catch (error) {
     console.error(error)

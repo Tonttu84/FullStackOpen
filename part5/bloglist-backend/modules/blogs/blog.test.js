@@ -149,8 +149,8 @@ try {
     
   assert.strictEqual(response.body.likes, 0)
     } catch (error) {
-      console.log('Full error:', error)
-      console.log('Message:', error.message)
+      //console.log('Full error:', error)
+      //console.log('Message:', error.message)
 
       throw error 
     }

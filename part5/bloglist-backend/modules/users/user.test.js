@@ -1,5 +1,6 @@
 
-const { test, expect, beforeAll, beforeEach, afterAll } = require('vitest')
+const test = require('node:test')
+const assert = require('node:assert')
 const supertest = require('supertest')
 const app = require('../../app')
 
@@ -12,23 +13,23 @@ const db = require('../blogs/blog.test.database')
 
 const api = supertest(app)
 
-beforeAll(async () => {
-  await db.connect()
-})
+test('blog backend tests', async (t) => {
 
-beforeEach(async () => {
-  await db.clearDatabase()
+await t.before(async () => {
+	await db.connect()
+  })
+  
+  await t.beforeEach(async () => {
+	await db.clearDatabase()
+	await db.seedDatabase()
+  })
+  
+  await t.after(async () => {
+	await db.closeDatabase()
+  })
 
-  await db.seedDatabase()
 
-})
-
-afterAll(async () => {
-  await db.closeDatabase()
-})
-
-
-test('a valid user can be created', async () => {
+  await t.test('a valid user can be created', async () => {
 
 
 
@@ -38,25 +39,30 @@ test('a valid user can be created', async () => {
 	  password: 'unsafe'
 	}
   
-	await api
+	const created = await api
 	  .post('/api/users')
 	  .send(newUser)
-	  .expect(201)
+	
+	  assert(created.status, 201)
   
-	await api.get('/api/users')
-    .expect(200)
+	const response = await api.get('/api/users')
+    assert.strictEqual(response.status, 200)
+	
   
 	const usersInDb = await User.find({ username: 'testuser' })
 
-  expect(usersInDb).toHaveLength(1)
+  
+  assert.strictEqual(usersInDb.length, 1)
   const user = usersInDb[0]
-  expect(user.username).toBe('testuser')
-  expect(user.name).toBe('Johannes')
+
+  assert.strictEqual(user.username, 'testuser')
+ 
+  assert.strictEqual(user.name, 'Johannes')
 
  
   })
 
-  test('a non-valid user cant be created', async () => {
+  await t.test('a non-valid user cant be created', async () => {
 
 
 
@@ -66,22 +72,22 @@ test('a valid user can be created', async () => {
 	  password: 'unsafe'
 	}
   
-	await api
+	const response = await api
 	  .post('/api/users')
 	  .send(newUser)
-	  .expect(400)
+	assert.strictEqual(response.status, 400)
   
-	await api.get('/api/users')
-    .expect(200)
+	const response2 = await api.get('/api/users')
+    assert.strictEqual(response2.status, 200)
   
 	const usersInDb = await User.find({ username: 'aa' })
 
-  expect(!usersInDb)
+	assert.strictEqual(usersInDb.length, 0)
 
  
   })
 
-   test('a non-valid user cant be created', async () => {
+  await t.test('a non-valid user cant be created', async () => {
 
 
 
@@ -91,23 +97,23 @@ test('a valid user can be created', async () => {
 	  password: 'un'
 	}
   
-	await api
+	const created = await api
 	  .post('/api/users')
 	  .send(newUser)
-	  .expect(400)
+	  assert.strictEqual(created.status, 400)
   
-	await api.get('/api/users')
-    .expect(200)
+	const response = await api.get('/api/users')
+    assert.strictEqual(response.status, 200)
   
 	const usersInDb = await User.find({ username: 'testuser' })
 
-  expect(!usersInDb)
+	assert.strictEqual(usersInDb.length, 0)
 
  
   })
 
 
-  test('a duplicate user cant be created', async () => {
+  await t.test('a duplicate user cant be created', async () => {
 
 
 
@@ -117,20 +123,22 @@ test('a valid user can be created', async () => {
 	  password: 'unsafe'
 	}
   
-	await api
+	const created = await api
 	  .post('/api/users')
 	  .send(newUser)
-	  .expect(201)
+	  assert.strictEqual(created.status, 201)
   
-	await api.get('/api/users')
-    .expect(200)
+	const response = await api.get('/api/users')
+    assert.strictEqual(response.status, 200)
   
 	const usersInDb = await User.find({ username: 'testuser' })
 
-  expect(usersInDb).toHaveLength(1)
+  assert.strictEqual(usersInDb.length, 1)
   const user = usersInDb[0]
-  expect(user.username).toBe('testuser')
-  expect(user.name).toBe('Johannes')
+  
+  assert.strictEqual(user.username, 'testuser')
+
+  assert.strictEqual(user.name, 'Johannes')
 
   	const duplicateUser = {
 	  username: 'testuser',
@@ -138,17 +146,19 @@ test('a valid user can be created', async () => {
 	  password: 'unsafe'
 	}
   
-	await api
+	const duplicated = await api
 	  .post('/api/users')
 	  .send(duplicateUser)
-	  .expect(400)
+	  assert.strictEqual(duplicated.status, 400)
 
   const usersInDb2 = await User.find({ username: 'testuser' })
 
-  expect(usersInDb2).toHaveLength(1)
+  assert.strictEqual(usersInDb2.length, 1)
   const user2 = usersInDb[0]
-  expect(user2.username).toBe('testuser')
-  expect(user2.name).toBe('Johannes')
+  assert.strictEqual(user2.username, 'testuser')
+  assert.strictEqual(user2.name, 'Johannes')
 
  
   })
+
+})
