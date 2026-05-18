@@ -1,3 +1,5 @@
+const test = require('node:test')
+const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../../app')
@@ -5,37 +7,33 @@ const listHelper = require('./blog.test.helper')
 const Blog = require('./blog.model')
 const User = require('../users/user.model')
 const db = require('./blog.test.database')
-const {blogs} = require('./blog.test.data')
-
-
+const { blogs } = require('./blog.test.data')
 
 const api = supertest(app)
 
-const initialBlogs = 5;
+const initialBlogs = 5
 
 
 
-beforeAll(async () => {
-  await db.connect()
-})
-
-beforeEach(async () => {
-  await db.clearDatabase()
-
-  await db.seedDatabase()
-
-})
-
-afterAll(async () => {
-  await db.closeDatabase()
-})
+test.before(async () => {
+	await db.connect()
+  })
+  
+  test.beforeEach(async () => {
+	await db.clearDatabase()
+	await db.seedDatabase()
+  })
+  
+  test.after(async () => {
+	await db.closeDatabase()
+  })
 
 
 test('dummy returns one', () => {
   const blogs = []
 
   const result = listHelper.dummy(blogs)
-  expect(result).toBe(1)
+  assert.strictEqual(result, 1)
 })
 
 describe('total likes', () => {
@@ -43,14 +41,14 @@ describe('total likes', () => {
   test('when list has only one blog, equals the likes of that', () => {
 
     const result = listHelper.totalLikes([blogs[0]])
-    expect(result).toBe(7)
+	assert.strictEqual(result, 7)
   })
 
 
   test('It works with multiple blogs too', () => {
 
     const result = listHelper.totalLikes(blogs)
-    expect(result).toBe(36)
+	assert.strictEqual(result, 36)
 
      })
 
@@ -60,17 +58,17 @@ describe('total likes', () => {
 test('I can find the author with most blogs', () => {
 
     const result = listHelper.mostBlogs(blogs)
-    expect(result).toStrictEqual({
-  author: "Robert C. Martin",
-  blogs: 3
-})
+	assert.deepStrictEqual(result, {
+		author: "Robert C. Martin",
+		blogs: 3
+	  })
 
      })
 
 test('I can find the author with most likes in all blogs', () => {
 
     const result = listHelper.mostLikes(blogs)
-    expect(result).toStrictEqual({
+    assert.deepStrictEqual(result, {
   author: "Edsger W. Dijkstra",
   likes: 17
 })
@@ -86,7 +84,8 @@ test('notes are returned as json',  async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-	expect(response.body.length).toBe(initialBlogs)
+	assert.strictEqual(result, initialBlogs)
+	
 })
 
 
@@ -94,8 +93,8 @@ test('blogs have id property instead of _id', async () => {
 	const response = await api.get('/api/blogs')
   
 	response.body.forEach(blog => {
-	  expect(blog.id).toBeDefined()
-	  expect(blog._id).toBeUndefined()
+	assert.notStrictEqual(blog.id, undefined)
+	  assert.strictEqual(blog._id, undefined)
 	})
   })
 
@@ -121,7 +120,7 @@ test('blogs have id property instead of _id', async () => {
 	  .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .expect(201)
+	  .assert.strictEqual(response.status, 201)
   
 	const response = await api.get('/api/blogs')
   
@@ -147,7 +146,7 @@ try {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .expect(201) 
+    .assert.strictEqual(response.status, 201) 
     
   expect(response.body.likes).toBe(0)
     } catch (error) {
@@ -176,7 +175,7 @@ try {
 	  .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .expect(400)
+	  .assert.strictEqual(response.status, 400)
   })
   
   test('missing url returns 400', async () => {
@@ -194,7 +193,7 @@ try {
 	  .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .expect(400)
+	  .assert.strictEqual(response.status, 400)
   })
 
 
@@ -214,7 +213,7 @@ try {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .expect(201)
+    .assert.strictEqual(response.status, 201)
 
   const id = created.body.id
 
@@ -223,13 +222,14 @@ try {
  await api
   	.delete(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
-    .expect(204)
+    .assert.strictEqual(response.status, 204)
 
   const responseAfterDelete = await api.get('/api/blogs')
 
   const ids = responseAfterDelete.body.map(b => b.id)
 
-  expect(ids).not.toContain(id)
+  
+  assert.strictEqual(ids.includes(id), false)
 
 
 })
@@ -251,7 +251,7 @@ test("deleting existing posts is forbidden if you dont own them", async () => {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .expect(201)
+    .assert.strictEqual(response.status, 201)
 
   const id = created.body.id
 
@@ -263,13 +263,14 @@ test("deleting existing posts is forbidden if you dont own them", async () => {
  await api
   	.delete(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token2}`)
-    .expect(403)
+    .assert.strictEqual(response.status, 403)
 
   const responseAfterDelete = await api.get('/api/blogs')
 
   const ids = responseAfterDelete.body.map(b => b.id)
 
-  expect(ids).toContain(id)
+  assert.ok(ids.includes(id))
+  
 
 
 })
@@ -291,7 +292,7 @@ test("Modifying old blogs works", async () => {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .expect(201)
+	.assert.strictEqual(response.status, 201)
 
   const id = created.body.id
 
@@ -306,10 +307,12 @@ test("Modifying old blogs works", async () => {
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
     .send(editedBlog)
-    .expect(200)
+    .assert.strictEqual(response.status, 200)
 
-  expect(updated.body.title).toBe('updated title')
-  expect(updated.body.likes).toBe(2)
+  
+  assert.strictEqual(updated.body.title, 'updated title')
+  
+  assert.strictEqual(updated.body.likes.status, 2)
 })
 
 test("Non-owner cannot modify blog content", async () => {
@@ -328,7 +331,7 @@ test("Non-owner cannot modify blog content", async () => {
     .post('/api/blogs')
     .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
-    .expect(201)
+    .assert.strictEqual(response.status, 201)
 
   const id = created.body.id
 
@@ -346,7 +349,7 @@ test("Non-owner cannot modify blog content", async () => {
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token2}`)
     .send(editedBlog)
-    .expect(403)
+    .assert.strictEqual(response.status, 403)
 
 })
 
@@ -366,7 +369,7 @@ test("Non-owner can change likes", async () => {
 	  .post('/api/blogs')
 	  .set('Authorization', `Bearer ${token}`)
 	  .send(newBlog)
-	  .expect(201)
+	  .assert.strictEqual(response.status, 201)
   
 	const id = created.body.id
   
@@ -384,7 +387,7 @@ test("Non-owner can change likes", async () => {
 	  .put(`/api/blogs/${id}`)
 	  .set('Authorization', `Bearer ${token2}`)
 	  .send(editedBlog)
-	  .expect(200)
+	  .assert.strictEqual(response.status, 200)
   
   })
 
@@ -410,7 +413,7 @@ test("Modifying nonexistent blog returns 404", async () => {
     .put(`/api/blogs/${id}`)
     .set('Authorization', `Bearer ${token}`)
     .send(editedBlog)
-    .expect(404)
+    .assert.strictEqual(response.status, 404)
 
  
 })
