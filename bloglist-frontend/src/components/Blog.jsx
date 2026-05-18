@@ -16,7 +16,9 @@ const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 
 	return(
   <div style={blogStyle}>
-    {blog.title} {blog.author}  {!showAll && (
+    <div className="title">{blog.title}</div>
+	<div className="author">{blog.author}</div> 
+	{!showAll && (
       <button onClick={() => setShowAll(true)}>
         view
       </button>
