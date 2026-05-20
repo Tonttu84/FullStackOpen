@@ -25,6 +25,11 @@ const blogSchema = mongoose.Schema({
 
   })
 
+  blogSchema.index(
+  { title: 1, author: 1, url: 1 },
+  { unique: true }
+)
+
   blogSchema.set('toJSON', {
 	transform: (document, returnedObject) => {
 	  returnedObject.id = returnedObject._id.toString()

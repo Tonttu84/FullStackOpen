@@ -42,35 +42,41 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
   
 		<form onSubmit={handleSubmit}>
 		  <div>
-			title
-			<input
-			  type="text"
-			  value={title}
-			  onChange={({ target }) => setTitle(target.value)}
-			/>
+			<label>
+				title
+				<input
+				type="text"
+				value={title}
+				onChange={({ target }) => setTitle(target.value)}
+				/>
+			</label>
 		  </div>
-  
+		  
 		  <div>
-			author
-			<input
-			  type="text"
-			  value={author}
-			  onChange={({ target }) => setAuthor(target.value)}
-			/>
-		  </div>
+			<label>
+				author
+				<input
+				type="text"
+				value={author}
+				onChange={({ target }) => setAuthor(target.value)}
+				/>
+			</label>
+		   </div>
   
-		  <div>
-			url
-			<input
-			  type="text"
-			  value={url}
-			  onChange={({ target }) => setUrl(target.value)}
-			/>
+  		  <div>	
+			<label>
+				url
+				<input
+				type="text"
+				value={url}
+				onChange={({ target }) => setUrl(target.value)}
+				/>
+			</label>
 		  </div>
   
 		  <button type="submit">create</button>
 		</form>
-		<button onClick={() => setShowAdd(false)}>
+		<button type="button" onClick={() => setShowAdd(false)}>
 		cancel
 		</button>
 	  </div>
@@ -79,7 +85,7 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 	}
 	
 	return (
-		<button onClick={() => setShowAdd(true)}>
+		<button  type="button" onClick={() => setShowAdd(true)}>
 		create new blog
 		</button>
 	)
