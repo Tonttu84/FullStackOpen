@@ -1,11 +1,13 @@
 const isTest = process.env.NODE_ENV === 'test'
+const isDebug = process.env.DEBUG === 'true'
 
-const info = (...params) => {
-  if (!isTest) console.log(...params)
+const shouldLog = !isTest || isDebug
+
+const info = (...args) => {
+  if (shouldLog) console.log(...args)
 }
 
-const error = (...params) => {
-  if (!isTest) console.error(...params)
+const error = (...args) => {
+  if (shouldLog) console.error(...args)
 }
-
 module.exports = { info, error }
