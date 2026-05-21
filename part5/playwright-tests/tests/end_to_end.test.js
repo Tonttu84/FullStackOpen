@@ -251,12 +251,12 @@ describe('Blog app', () => {
     }
 
     for (let i = 0; i < likes.length; i++) {
-    if (i === 0) continue
+      if (i === 0) continue
 
-    const current = likes[i]
-    const previous = likes[i - 1]
+      const current = likes[i]
+      const previous = likes[i - 1]
 
-  expect(current).toBeLessThanOrEqual(previous)
+    expect(current).toBeLessThanOrEqual(previous)
 }
 
   })
