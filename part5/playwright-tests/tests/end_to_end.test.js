@@ -233,6 +233,34 @@ describe('Blog app', () => {
 
   })
 
+  test('Likes are sorted in descending order', async ({ page }) => {
+
+    const blogs = page.getByTestId('blog')
+
+    const count = await blogs.count()
+
+    const likes = []
+
+    for (let i = 0; i < count; i++) {
+      const blog = blogs.nth(i)
+
+       const likesText = await blog.locator('.likes').textContent()
+
+       likes.push(Number(likesText.match(/\d+/)[0]))
+
+    }
+
+    for (let i = 0; i < likes.length; i++) {
+    if (i === 0) continue
+
+    const current = likes[i]
+    const previous = likes[i - 1]
+
+  expect(current).toBeLessThanOrEqual(previous)
+}
+
+  })
+
 })
 
 
