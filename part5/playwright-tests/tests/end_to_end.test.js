@@ -166,6 +166,73 @@ describe('Blog app', () => {
 
   })
 
+  test('creator of the blog can delete it', async ({ page }) => {
+
+    await page.getByText('logged in').waitFor()
+    //make sure the blog is not already there
+    await expect(page.getByText('testTitle')).toHaveCount(0)
+
+    await page.getByRole('button', { name: 'create new blog' }).click()
+    const title =  page.getByLabel('title')
+    await expect(title).toBeVisible()
+    const author =  page.getByLabel('author')
+    await expect(author).toBeVisible()
+    const url =  page.getByLabel('url')
+    await expect(url).toBeVisible()
+    await title.fill('testTitle')
+    await author.fill('testAuthor')
+    await url.fill('testUrl')
+
+
+    const submitButton = page.getByRole('button', { name: 'create' })
+    await submitButton.click()
+
+    await expect(page.getByText('testTitle', { exact: true })).toBeVisible()
+
+    //We have now added the testblog
+    const blog = page
+    .getByTestId('blog')
+    .filter({ hasText: 'testTitle' })
+
+
+
+ const viewButton =  blog.getByRole('button', { name: 'view' })
+ await viewButton.click()
+ await page.getByText('logged in').waitFor()
+
+
+ const deleteButton =  blog.getByRole('button', { name: 'delete' })
+ await deleteButton.click()
+ await page.getByText('logged in').waitFor()
+
+ await expect(blog).not.toBeVisible()
+
+ 
+
+
+
+
+  })
+
+  test('Delete button doesnt appear for non-owners', async ({ page }) => {
+
+     await page.getByText('logged in').waitFor()
+    //make sure the blog is not already there
+   
+
+     const blog = page
+    .getByTestId('blog')
+    .filter({ hasText: 'Bob Blog'})
+
+    //my before each leaves the views open so I dont need to open them now
+
+     await expect(blog).toHaveCount(1)
+
+    await expect(blog.getByRole('button', { name: 'delete' })).toHaveCount(0)
+    await expect(blog.getByRole('button', { name: 'hide' })).toBeVisible()
+
+  })
+
 })
 
 
