@@ -15,7 +15,7 @@ const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 	
 
 	return(
-  <div style={blogStyle}>
+  <div  data-testid="blog" style={blogStyle}>
     <div className="title">{blog.title}</div>
 	<div className="author">{blog.author}</div> 
 	{!showAll && (
