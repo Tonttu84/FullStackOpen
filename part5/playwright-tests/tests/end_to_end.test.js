@@ -31,9 +31,9 @@ describe('Blog app', () => {
         await submit_button.click()
 
         
-        await page.waitForTimeout(100)
+
         
-        await page.pause()
+
     
 
 
@@ -56,7 +56,7 @@ describe('Blog app', () => {
         await password_field.fill('fakepass')
         await submit_button.click()
 
-        await page.waitForTimeout(100)
+        
 
         await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
         await expect(page.getByRole('button', { name: 'logout' })).not.toBeVisible()
@@ -72,19 +72,19 @@ describe('Blog app', () => {
   await page.getByLabel('password').fill('testuser')
   await page.getByRole('button', { name: 'login' }).click()
 
-  await page.waitForTimeout(100)
+  await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
 
    while (await page.getByRole('button', { name: 'view' }).count() > 0) {
       await page.getByRole('button', { name: 'view' }).first().click()
 
-       await page.waitForTimeout(100)
+       await page.getByText('logged in').waitFor()
 
       const deleteButton = page.getByRole('button', { name: 'delete' })
 
       if (await deleteButton.count() > 0) {
         await deleteButton.first().click()
 
-         await page.waitForTimeout(100)
+         await page.getByText('logged in').waitFor()
       }
     }
 
@@ -94,8 +94,8 @@ describe('Blog app', () => {
   test('a new blog can be created', async ({ page }) => {
     //make sure the blog is not already there, does not seem to work now
 
-    await page.waitForTimeout(100)
-
+    
+    await page.getByText('logged in').waitFor()
     await expect(page.getByText('testTitle')).toHaveCount(0)
 
     await page.getByRole('button', { name: 'create new blog' }).click()
