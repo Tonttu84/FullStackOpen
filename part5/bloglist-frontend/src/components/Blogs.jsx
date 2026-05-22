@@ -8,21 +8,12 @@ import NavBar from '../NavBar'
 
 
 
-const Blogs = ({user, setUser}) => {
+const Blogs = ({user}) => {
   const [blogs, setBlogs] = useState([])
 
   const [notificationMessage, setNotificationMessage] = useState(null)
 
-  const handleLogout = () => {
 
-  setUser(null)
-  blogService.setToken(null)
-  localStorage.removeItem('loggedBlogUser')
-
- 
-
-
-	}
 
 	const createBlog = async (newBlog) => {
 		try {
@@ -103,7 +94,7 @@ const deleteBlog = async (blog) => {
 
       <h2>blogs</h2>
 
-     <User user={user} handleLogout={handleLogout} />
+     
      <p/>
 	 <AddBlog createBlog={createBlog} 
 	 	notifMessage={notificationMessage}

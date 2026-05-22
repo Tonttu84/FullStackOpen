@@ -2,10 +2,11 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 import Notification from './Notification'
+import { useNavigate } from 'react-router-dom'
 
 const Login = ({setUser}) =>
 {
-
+	const Navigate = useNavigate()
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -20,6 +21,7 @@ const Login = ({setUser}) =>
 		setUser(response) 
 		localStorage.setItem('loggedBlogUser', JSON.stringify(response));
 		blogService.setToken(response.token)
+		Navigate('/')
 	  } catch (error) {
 		console.error('login failed', error)
 	
