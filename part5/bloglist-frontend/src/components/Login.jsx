@@ -35,6 +35,7 @@ const Login = ({setUser}) =>
 
 	return(
 	<>
+	<h2>Log in to application</h2>
 	<Notification notification={errorMessage} />
 	<form onSubmit={handleLogin}>
           <div>

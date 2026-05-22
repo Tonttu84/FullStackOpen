@@ -4,6 +4,8 @@ import blogService from './services/blogs'
 import User from './components/User'
 import AddBlog from './components/AddBlog'
 import Login from './components/Login'
+import NavBar from './components/NavBar'
+
 
 
 const App = () => {
@@ -40,6 +42,7 @@ const App = () => {
 	
 		} catch (error) {
 		  //console.error('Error creating blog:', error)
+		  void error
 		  setNotificationMessage({
 			type: 'error',
 			message: 'Failed to add blog'
@@ -93,23 +96,11 @@ const deleteBlog = async (blog) => {
   
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
-  if (!user) {
-    
-    return (
-      <div>
-        <h2>Log in to application</h2>
-
-      
-      
-		<Login setUser={setUser} />
-        
-      </div>
-
-    )
-  }
+  
 
   return (
     <div>
+	<NavBar setUser={setUser}/>
       <h2>blogs</h2>
 
      <User user={user} handleLogout={handleLogout} />
