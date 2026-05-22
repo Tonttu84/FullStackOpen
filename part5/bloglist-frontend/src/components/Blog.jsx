@@ -1,8 +1,8 @@
-import { useState } from 'react'
+
 
 
 const Blog = ({ blog, handleLike, deleteBlog, user}) => {
-	const [showAll, setShowAll] = useState(false)
+
 
 	const blogStyle = {
 		paddingTop: 10,
@@ -16,37 +16,34 @@ const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 
 	return(
   <div  data-testid="blog" style={blogStyle}>
-    <div className="title">{blog.title}</div>
-	<div className="author">{blog.author}</div> 
-	{!showAll && (
-      <button onClick={() => setShowAll(true)}>
-        view
-      </button>
-    )}
+    <h3 className="author"> {blog.author} : {blog.title}</h3> 
+	
   
-	{showAll && (
+	
 		<>
-		<button onClick={() => setShowAll(false)}>hide</button>  
+
 		<div>
 		
         <a href={blog.url} target="_blank" rel="noopener noreferrer">
   	{blog.url}
 		</a>
-        <br />
+        
     	  <div className="likes">
         	likes: {blog.likes}
-      	  </div>
-		
+      	  
+		{user &&( 
 		<button onClick={() =>handleLike(blog)}>like</button>
-		<br />
-		{blog.user.name}
+		)}
+		</div>
+		
+		added by {blog.user.name}
 		<br />
 		{user && blog.user.username == user.username && (
-		<button onClick={() => deleteBlog(blog)}>delete</button> 
+		<button onClick={() => deleteBlog(blog)}>remove</button> 
 		)}
       </div>
 	  </>
-	)}
+	
   </div> 
   ) 
 }
