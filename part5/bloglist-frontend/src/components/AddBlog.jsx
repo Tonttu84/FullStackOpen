@@ -7,7 +7,6 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 
 	
 
-	const [showAdd, setShowAdd] = useState(false)
 
 
 	const [title, setTitle] = useState('')
@@ -29,8 +28,7 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 	  }
   
 
-	if (showAdd == true)
-	{
+	
 	return (
 	  <div>
 
@@ -76,19 +74,13 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
   
 		  <button type="submit">create</button>
 		</form>
-		<button type="button" onClick={() => setShowAdd(false)}>
-		cancel
-		</button>
+		
 	  </div>
 	  
 	)
-	}
 	
-	return (
-		<button  type="button" onClick={() => setShowAdd(true)}>
-		create new blog
-		</button>
-	)
+	
+	
 	
 }
 

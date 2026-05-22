@@ -29,7 +29,9 @@ const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 		<button onClick={() => setShowAll(false)}>hide</button>  
 		<div>
 		
-        {blog.url}
+        <a href={blog.url} target="_blank" rel="noopener noreferrer">
+  	{blog.url}
+		</a>
         <br />
     	  <div className="likes">
         	likes: {blog.likes}
