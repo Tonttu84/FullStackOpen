@@ -3,8 +3,8 @@ import {
   Routes, Route, Link
 } from 'react-router-dom'
 
-import Login from './Login'
-import App from '../App'
+import Login from './components/Login'
+
 
 const NavBar = ({setUser}) => 
 {

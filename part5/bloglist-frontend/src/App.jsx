@@ -1,119 +1,54 @@
-import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
-import User from './components/User'
-import AddBlog from './components/AddBlog'
+import Blogs from './components/Blogs'
 import Login from './components/Login'
-import NavBar from './components/NavBar'
+import { useState } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
 
 
-
-const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
-  const [notificationMessage, setNotificationMessage] = useState(null)
-
-  const handleLogout = () => {
-
-  setUser(null)
-  blogService.setToken(null)
-  localStorage.removeItem('loggedBlogUser')
-
- 
-
-
-	}
-
-	const createBlog = async (newBlog) => {
-		try {
-		  const createdBlog = await blogService.create(newBlog)
-	
-		  await refreshBlogs()
-	
-		  //console.log('Created blog:', createdBlog)
-
-		  setNotificationMessage({
-			type: 'success',
-			message: `${createdBlog.title || 'Unknown title'} by ${createdBlog.author || 'Unknown author'} added`
-		  })
-		  //console.log('Notification set to :', notificationMessage)
-		  setTimeout(() => setNotificationMessage(null), 5000)
-
-	
-		} catch (error) {
-		  //console.error('Error creating blog:', error)
-		  void error
-		  setNotificationMessage({
-			type: 'error',
-			message: 'Failed to add blog'
-		  })
-			  setTimeout(() => setNotificationMessage(null), 5000)
-			
-		}
-	  }
-
-
-const deleteBlog = async (blog) => {
-	
-	
-	try {
-	  await blogService.deleteBlog(blog)
-  
-	  setBlogs(blogs.filter(b => b.id !== blog.id))
-	} catch (error) {
-	  console.error('delete failed', error)
-	}
+const App = () =>
+{
+      const [user, setUser] = useState(null)
+        const padding = {
+    padding: 5
   }
 
-	const refreshBlogs = async () => {
-		const blogs = await blogService.getAll()
-		setBlogs(blogs)
-	}
 
-	useEffect(() => {
-		refreshBlogs()
-	}, [])
+    return (
+        <>
+          
+          <Router>
+      <div>
+        
+        <Link style={padding} to="/login">login</Link>
+        <Link style={padding} to="/">blogs</Link>
+        
+      </div>
 
-  const handleLike = async (blog) => {
-
-	const updatedBlog = {
-		...blog,
-		likes: (blog.likes || 0) + 1
-	  }
-
-	  delete updatedBlog.user
-
-	  const returnedBlog = await blogService.like(updatedBlog)
-
-	setBlogs(prev =>
-  prev.map(b =>
-    b.id === blog.id
-      ? returnedBlog
-      : b
-	)
-	)
-  }
-  
-  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
-
-  
-
-  return (
-    <div>
-	<NavBar setUser={setUser}/>
-      <h2>blogs</h2>
-
-     <User user={user} handleLogout={handleLogout} />
-     <p/>
-	 <AddBlog createBlog={createBlog} 
-	 	notifMessage={notificationMessage}
-	 />
-
-      {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} deleteBlog={deleteBlog} user={user} />
-      )}
-    </div>
-  )
+      <Routes>
+        <Route path="/login" element={
+          <Login setUser={setUser} />
+        } />
+        <Route path="/" element={
+          <Blogs user={user} setUser={setUser}/>
+        } />
+        
+        
+      </Routes>
+    </Router>
+    
+         
+         
+        
+        </>
+    )
 }
 
 export default App
+
+
+
+
+
+
