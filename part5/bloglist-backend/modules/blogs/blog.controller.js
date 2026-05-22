@@ -15,6 +15,27 @@ blogRouter.get('/', async (request, response) => {
 	
   })
   
+  blogRouter.get('/blogs/:id', async (request, response, next) => {
+  try {
+    const blog = await Blog.findById(request.params.id)
+      .populate('user', {
+        username: 1,
+        name: 1
+      })
+
+    if (!blog) {
+      return response.status(404).json({
+        error: 'blog not found'
+      })
+    }
+
+    response.json(blog)
+
+  } catch (error) {
+    next(error)
+  }
+})
+  
 
 
 
