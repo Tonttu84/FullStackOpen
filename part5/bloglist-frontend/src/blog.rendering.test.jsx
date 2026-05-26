@@ -18,27 +18,70 @@ afterEach(() => {
 
 
 
-test('renders title and author but not url or likes by default', () => {
-  const validBlog = {
-    title: 'Testing with Vitest',
-    author: 'Jane Developer',
-    url: 'https://example.com/testing-vitest',
-    likes: 5,
-    user: '123'
-  }
-
-  render(<Blog blog={validBlog} />)
-
-  // should exist
-  expect(screen.getByText('Testing with Vitest')).toBeInTheDocument()
-  expect(screen.getByText('Jane Developer')).toBeInTheDocument()
-
-  // should NOT exist
-  expect(screen.queryByText('https://example.com/testing-vitest')).toBeNull()
-  expect(screen.queryByText('likes: 5')).toBeNull()
-})
+describe('Blog component for unauthenticated users', () => {
+	const validBlog = {
+	  title: 'Testing with Vitest',
+	  author: 'Jane Developer',
+	  url: 'https://example.com/testing-vitest',
+	  likes: 5,
+	  user: '123'
+	}
+  
+	beforeEach(() => {
+	  render(<Blog blog={validBlog} />)
+	})
+  
+	test('renders title and author', () => {
+	  expect(screen.getByText(/Testing with Vitest/i)).toBeInTheDocument()
+	  expect(screen.getByText(/Jane Developer/i)).toBeInTheDocument()
+	})
+  
+	test('renders url and likes', () => {
+	  expect(
+		screen.getByText(/https:\/\/example.com\/testing-vitest/i )
+	  ).toBeInTheDocument()
+  
+	  expect(screen.getByText(/likes:\s*5/i)).toBeInTheDocument()
+	})
+  
+	test('does not render action buttons', () => {
+	  expect(
+		screen.queryByRole('button', { name: /like/i })
+	  ).not.toBeInTheDocument()
+  
+	  expect(
+		screen.queryByRole('button', { name: /remove/i })
+	  ).not.toBeInTheDocument()
+	})
+  })
 
 //Blog = ({ blog, handleLike, deleteBlog, user
+
+
+test('The owner can also see a delete buttons', () => {
+
+	
+
+	const validUser =
+	{
+		  username: '123'
+	}
+
+	const validBlog = {
+		title: 'Testing with Vitest',
+		author: 'Jane Developer',
+		url: 'https://example.com/testing-vitest',
+		likes: 5,
+		user: validUser
+	  }
+
+	render(<Blog blog={validBlog} user={validUser} />)
+
+	expect(
+		screen.queryByRole('button', { name: /remove/i })
+	  ).toBeInTheDocument()
+
+})
 
 test(' blogs URL and number of likes are shown when the button controlling the shown details has been clicked', async () => {
 	const validBlog = {
