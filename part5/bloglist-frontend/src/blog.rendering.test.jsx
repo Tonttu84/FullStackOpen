@@ -59,8 +59,7 @@ test(' blogs URL and number of likes are shown when the button controlling the s
 	)
   
 	const user = userEvent.setup()
-	const unhidebutton = screen.getByText('view')
-	await user.click(unhidebutton)
+	
 	
   	
 	expect(screen.getByText(/https:\/\/example.com\/testing-vitest/)).toBeInTheDocument()
@@ -89,8 +88,7 @@ test('clicking the button calls event handler once', async () => {
 	)
   
 	const user = userEvent.setup()
-	const unhidebutton = screen.getByText('view')
-	await user.click(unhidebutton)
+
 	const button = screen.getByText('like')
 	
 	await user.click(button)

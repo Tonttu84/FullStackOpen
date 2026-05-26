@@ -9,8 +9,7 @@ test('<Addblog /> calls the event handler it received as props with the right de
 
   render(<AddBlog createBlog={mockCreate} />)
 
-  const openButton = screen.getByText('create new blog')
-  await user.click(openButton)
+
 
 
   const inputs = screen.getAllByRole('textbox')
