@@ -38,7 +38,7 @@ describe('Blog app', () => {
 
 
         
-    await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
+    await expect(page.getByRole('button', { name: /logout/ })).toBeVisible()
     await expect(page.getByRole('button', { name: 'login' })).not.toBeVisible()
 
 
@@ -149,27 +149,23 @@ describe('Blog app', () => {
     await title.fill('testTitle')
     await author.fill('testAuthor')
     await url.fill('testUrl')
-
+	await page.getByRole('button', { name: 'create' }).click()
 
 
 	await expect(page.getByRole('link', { name: /testTitle/ })).toBeVisible()
 
     //We have now added the testblog
-    const blog = page
-    .getByTestId('blog')
-    .filter({ hasText: 'testTitle' })
+    await page.getByRole('link', { name: /testTitle/ }).click()
 
 
 
- const viewButton = await blog.getByRole('button', { name: 'view' })
- await viewButton.click()
- await page.getByText('logged in').waitFor()
- await expect(blog).toContainText('likes: 0')
 
- const likeButton = await blog.getByRole('button', { name: 'like' })
+	await page.getByRole('button', { name: /logout/ })
+	await expect(page.getByText('likes: 0')).toBeVisible()
+
+ const likeButton = await page.getByRole('button', { name: 'like' })
  await likeButton.click()
- await page.getByText('logged in').waitFor()
- await expect(blog).toContainText('likes: 1')
+ await expect(page.getByText('likes: 1')).toBeVisible()
  
 
 
@@ -179,7 +175,7 @@ describe('Blog app', () => {
 
   test('creator of the blog can delete it', async ({ page }) => {
 
-    await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
+    await expect(page.getByRole('button', { name: /logout/ })).toBeVisible()
     //make sure the blog is not already there
 	await page.getByRole('link', { name: 'new blog' }).click()
     await expect(page.getByText('testTitle')).toHaveCount(0)
@@ -202,15 +198,7 @@ describe('Blog app', () => {
     await expect(page.getByRole('link', { name: /testTitle/ })).toBeVisible()
 
     //We have now added the testblog
-    const blog = page
-    .getByTestId('blog')
-    .filter({ hasText: 'testTitle' })
-
-
-
- const viewButton =  blog.getByRole('button', { name: 'view' })
- await viewButton.click()
- await page.getByText('logged in').waitFor()
+   
 
 
  const deleteButton =  blog.getByRole('button', { name: 'delete' })
