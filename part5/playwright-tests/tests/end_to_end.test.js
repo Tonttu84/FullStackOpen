@@ -199,13 +199,13 @@ describe('Blog app', () => {
 
     //We have now added the testblog
    
+	await page.getByRole('link', { name: /testTitle/ }).click()
 
-
- const deleteButton =  blog.getByRole('button', { name: 'delete' })
+ const deleteButton =  page.getByRole('button', { name: /remove/ })
  await deleteButton.click()
- await page.getByText('logged in').waitFor()
+ await page.getByRole('button', { name: /logout/ }).waitFor()
 
- await expect(blog).not.toBeVisible()
+ await expect(page.getByRole('link', { name: /testTitle/ })).not.toBeVisible()
 
  
 
