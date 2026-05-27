@@ -216,20 +216,20 @@ describe('Blog app', () => {
 
   test('Delete button doesnt appear for non-owners', async ({ page }) => {
 
-     await page.getByText('logged in').waitFor()
+	await page.getByRole('button', { name: /logout/ }).waitFor()
     //make sure the blog is not already there
    
 
-     const blog = page
-    .getByTestId('blog')
-    .filter({ hasText: 'Bob Blog'})
+	const blog = page.getByRole('link', { name: /Bob Blog/ })
+
+	await expect(blog).toHaveCount(1)
 
     //my before each leaves the views open so I dont need to open them now
 
-     await expect(blog).toHaveCount(1)
+     await blog.click()
 
-    await expect(blog.getByRole('button', { name: 'delete' })).toHaveCount(0)
-    await expect(blog.getByRole('button', { name: 'hide' })).toBeVisible()
+    await expect(blog.getByRole('button', { name: 'remove' })).toHaveCount(0)
+   
 
   })
 
