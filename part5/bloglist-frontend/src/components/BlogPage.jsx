@@ -1,5 +1,6 @@
-import { useParams } from 'react-router-dom'
+
 import Blog from './Blog'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const BlogPage = ({ blogs, handleLike, deleteBlog, user }) => {
   const { id } = useParams()
@@ -8,11 +9,17 @@ const BlogPage = ({ blogs, handleLike, deleteBlog, user }) => {
 
   if (!blog) return null
 
+  const navigate = useNavigate()
+  const handleDelete = async () => {
+    await deleteBlog(blog)
+    navigate('/')
+  }   
+
   return (
     <Blog
       blog={blog}
       handleLike={handleLike}
-      deleteBlog={deleteBlog}
+      deleteBlog={handleDelete}
       user={user}
     />
   )

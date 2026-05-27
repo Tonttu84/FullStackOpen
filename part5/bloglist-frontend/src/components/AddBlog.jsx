@@ -1,22 +1,21 @@
 import { useState } from 'react'
 import Notification from './Notification'
+import { useNavigate } from 'react-router-dom'
 
 
 
 const AddBlog = ({ createBlog, notifMessage }) =>  {
 
-	
-
-
+	const navigate = useNavigate()
 
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault()
 	
-		createBlog({
+		await createBlog({
 		  title,
 		  author,
 		  url
@@ -25,6 +24,7 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 		setTitle('')
 		setAuthor('')
 		setUrl('')
+		navigate('/')
 	  }
   
 

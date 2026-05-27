@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "test": "playwright test --project=chromium --project=firefox",
+    "test": "playwright test --project=chromium --project=firefox",
     "test:report": "playwright show-report"
   },
   "keywords": [],
@@ -14,6 +14,8 @@
   "devDependencies": {
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
   }
 }
-   
