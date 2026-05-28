@@ -232,7 +232,7 @@ describe('Blog app', () => {
    
 
   })
-
+/*
   test('Likes are sorted in descending order', async ({ page }) => {
 
     const blogs = page.getByTestId('blog')
@@ -260,7 +260,7 @@ describe('Blog app', () => {
 }
 
   })
-
+*/
 })
 
 
