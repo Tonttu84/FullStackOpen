@@ -83,6 +83,39 @@ test('The owner can also see a delete buttons', () => {
 
 })
 
+test('A logged in user can see the like button', () => {
+
+	const owner =
+	{
+		  username: 'something'
+	}
+	
+
+	const validUser =
+	{
+		  username: '23232'
+	}
+
+	const validBlog = {
+		title: 'Testing with Vitest',
+		author: 'Jane Developer',
+		url: 'https://example.com/testing-vitest',
+		likes: 5,
+		user: owner
+	  }
+
+	render(<Blog blog={validBlog} user={validUser} />)
+
+	expect(
+		screen.queryByRole('button', { name: /like/i })
+	  ).toBeInTheDocument()
+	
+	  expect(
+		screen.queryByRole('button', { name: /remove/i })
+	  ).not.toBeInTheDocument()
+
+})
+
 test(' blogs URL and number of likes are shown when the button controlling the shown details has been clicked', async () => {
 	const validBlog = {
 		title: 'Testing with Vitest',
