@@ -23,10 +23,12 @@ const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 	  <BlogActions>
 		{blog.likes} likes 
 		{user &&( 
-		<OutlineButton onClick={handleLike}>LIKE</OutlineButton>
+		<OutlineButton onClick={() => handleLike(blog)}>LIKE</OutlineButton>
+
 		)}
 		{user && blog.user.username == user.username && (
-		<DangerButton onClick={deleteBlog}>REMOVE</DangerButton> 
+		<DangerButton onClick={() => deleteBlog(blog)}>REMOVE</DangerButton>
+
 		)}
 		</BlogActions>
 		

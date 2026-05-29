@@ -84,7 +84,7 @@ describe('Blog app', () => {
 	  
 		await newLink.click()
 	  
-		const deleteButton = page.getByRole('button', { name: 'remove' })
+		const deleteButton = page.getByRole('button', { name: 'REMOVE' })
 	  
 		if (await deleteButton.count() > 0) {
 		  await deleteButton.click()
@@ -161,11 +161,11 @@ describe('Blog app', () => {
 
 
 	await page.getByRole('button', { name: /logout/ })
-	await expect(page.getByText('likes: 0')).toBeVisible()
+	await expect(page.getByText('0 likes')).toBeVisible()
 
- const likeButton = await page.getByRole('button', { name: 'like' })
+ const likeButton = await page.getByRole('button', { name: 'LIKE' })
  await likeButton.click()
- await expect(page.getByText('likes: 1')).toBeVisible()
+ await expect(page.getByText('1 likes')).toBeVisible()
  
 
 
@@ -201,7 +201,7 @@ describe('Blog app', () => {
    
 	await page.getByRole('link', { name: /testTitle/ }).click()
 
- const deleteButton =  page.getByRole('button', { name: /remove/ })
+ const deleteButton =  page.getByRole('button', { name: /REMOVE/ })
  await deleteButton.click()
  await page.getByRole('button', { name: /logout/ }).waitFor()
 
@@ -228,7 +228,7 @@ describe('Blog app', () => {
 
      await blog.click()
 
-    await expect(blog.getByRole('button', { name: 'remove' })).toHaveCount(0)
+    await expect(blog.getByRole('button', { name: 'REMOVE' })).toHaveCount(0)
    
 
   })

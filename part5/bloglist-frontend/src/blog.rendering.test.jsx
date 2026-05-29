@@ -41,7 +41,7 @@ describe('Blog component for unauthenticated users', () => {
 		screen.getByText(/https:\/\/example.com\/testing-vitest/i )
 	  ).toBeInTheDocument()
   
-	  expect(screen.getByText(/likes:\s*5/i)).toBeInTheDocument()
+	  expect(screen.getByText(/5 likes/i)).toBeInTheDocument()
 	})
   
 	test('does not render action buttons', () => {
@@ -165,7 +165,7 @@ test('clicking the button calls event handler once', async () => {
   
 	const user = userEvent.setup()
 
-	const button = screen.getByText('like')
+	const button = screen.getByText('LIKE')
 	
 	await user.click(button)
 	await user.click(button)
