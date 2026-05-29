@@ -46,6 +46,18 @@ export const BlogList = styled.div`
   }
 `;
 
+export const HiddenLabel = styled.label`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+`
+
 
 
 export const NotificationBox = styled.div`
@@ -139,16 +151,16 @@ export const Button = styled.button`
 `
 
 export const Input = styled.input`
-  width: 300px;
+  width: 260px;
 
   border: none;
   border-bottom: 1px solid #bdbdbd;
 
-  padding: 0.5em 0.75em; 
+  padding: 0.4em 0.5em;
   margin: 0.75em 0;
 
-  font-size: 2rem;
-  font-weight: 300;
+  font-size: 1rem;        /* matches Button + NavLink */
+  font-weight: 400;
 
   outline: none;
   background: transparent;
@@ -160,7 +172,8 @@ export const Input = styled.input`
   &:focus {
     border-bottom: 2px solid #1976d2;
   }
-`
+`;
+
 
 export const BoxInput = styled(Input)`
   border: 1px solid #bdbdbd;

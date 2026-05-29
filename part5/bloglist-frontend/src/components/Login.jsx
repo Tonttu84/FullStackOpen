@@ -3,7 +3,8 @@ import blogService from '../services/blogs'
 import loginService from '../services/login'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
-import { Button, Input } from '../styles/components'
+import { Button, Input, HiddenLabel } from '../styles/components'
+
 
 const Login = ({setUser}) =>
 {
@@ -42,7 +43,7 @@ const Login = ({setUser}) =>
 	<Notification notification={errorMessage} />
 	<form onSubmit={handleLogin}>
           <div>
-		  <label htmlFor="username">username</label>
+		  <HiddenLabel  htmlFor="username">username</HiddenLabel >
               
               <Input
 			  id = 'username'
@@ -54,7 +55,7 @@ const Login = ({setUser}) =>
            
             </div>
             <div>
-			<label htmlFor="password">password</label>
+			<HiddenLabel  htmlFor="password">password</HiddenLabel >
                 
                 <Input
 				id = 'password'

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
-import { Button, BoxInput } from '../styles/components'
+import { Button, BoxInput, HiddenLabel } from '../styles/components'
 
 
 
@@ -41,7 +41,7 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
   
 		<form onSubmit={handleSubmit}>
 		  <div>
-		  <label htmlFor="title">title</label>
+		  <HiddenLabel htmlFor="title">title</HiddenLabel>
 				
 				<BoxInput
 				id = 'title'
@@ -54,7 +54,7 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 		  </div>
 		  
 		  <div>
-		  <label htmlFor="author">author</label>
+		  <HiddenLabel htmlFor="author">author</HiddenLabel>
 				
 				<BoxInput
 				id = 'author'
@@ -67,7 +67,7 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 		   </div>
   
   		  <div>	
-			<label htmlFor="url">url</label>
+			<HiddenLabel htmlFor="url">url</HiddenLabel>
 				
 				<BoxInput
 				id = 'url'
