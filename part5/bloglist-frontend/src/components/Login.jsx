@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 import loginService from '../services/login'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
+import { Button, Input } from '../styles/components'
 
 const Login = ({setUser}) =>
 {
@@ -42,9 +43,10 @@ const Login = ({setUser}) =>
 	<form onSubmit={handleLogin}>
           <div>
             <label>
-              username
-              <input
+              
+              <Input
               type = 'text'
+				placeholder="username"
               value={username}
               onChange={({target}) => setUsername(target.value)}
               />
@@ -52,15 +54,16 @@ const Login = ({setUser}) =>
             </div>
             <div>
               <label>
-                password
-                <input
+                
+                <Input
                 type = "password"
+				placeholder="password"
                 value = {password}
                 onChange={({target}) => setPassword(target.value)}
                 />
               </label>
             </div>
-            <button type="submit">login</button>
+            <Button type="submit">login</Button>
           </form>
 	
 	</>

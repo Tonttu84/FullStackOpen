@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import Blogs from './components/Blogs'
-import Blog from './components/Blog'
 import BlogPage from './components/BlogPage'
 import Login from './components/Login'
 import AddBlog from './components/AddBlog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
+
+import { NavLink, Navbar, LogoutButton, Spacer } from './styles/components'
+
 
 
 import {
@@ -20,10 +23,8 @@ const AppContent = () =>
     const [notificationMessage, setNotificationMessage] = useState(null)
 
     const [user, setUser] = useState(null)
-        const padding = {
-    padding: 5
-  }
-  const navigate = useNavigate()
+    
+  	const navigate = useNavigate()
 
     const handleLogout = () => {
   
@@ -111,17 +112,22 @@ const AppContent = () =>
         <>
           
           
-      <div>
+      <Navbar >
+	  <NavLink to="/">Blog App</NavLink>
 
-        <Link style={padding} to="/">blogs</Link>
+	  <Spacer />
+		
+        <NavLink  to="/">blogs</NavLink>
         {!user && 
-        (<Link style={padding} to="/login">login</Link>)}
-        {user && (<Link style={padding} to="/create">new blog</Link>)}
-        {user && (<button onClick={handleLogout}>logout</button>)}
+        (<NavLink  to="/login">login</NavLink>)}
+        {user && (<NavLink to="/create">new blog</NavLink>)}
+        {user && (<LogoutButton onClick={handleLogout}>logout</LogoutButton>)}
         
         
         
-      </div>
+		</Navbar>
+
+		<Notification notification={notificationMessage} />
 
       <Routes>
         <Route path="/login" element={

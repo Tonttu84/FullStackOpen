@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
+import { Button, BoxInput } from '../styles/components'
 
 
 
@@ -41,9 +42,10 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 		<form onSubmit={handleSubmit}>
 		  <div>
 			<label>
-				title
-				<input
+				
+				<BoxInput
 				type="text"
+				placeholder = 'title'
 				value={title}
 				onChange={({ target }) => setTitle(target.value)}
 				/>
@@ -52,9 +54,10 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
 		  
 		  <div>
 			<label>
-				author
-				<input
+				
+				<BoxInput
 				type="text"
+				placeholder = 'author'
 				value={author}
 				onChange={({ target }) => setAuthor(target.value)}
 				/>
@@ -63,16 +66,17 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
   
   		  <div>	
 			<label>
-				url
-				<input
+				
+				<BoxInput
 				type="text"
+				placeholder = 'url'
 				value={url}
 				onChange={({ target }) => setUrl(target.value)}
 				/>
 			</label>
 		  </div>
   
-		  <button type="submit">create</button>
+		  <Button type="submit">create</Button>
 		</form>
 		
 	  </div>

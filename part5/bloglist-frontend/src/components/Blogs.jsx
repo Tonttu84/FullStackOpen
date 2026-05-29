@@ -1,43 +1,20 @@
-
-import Blog from './Blog'
-import User from './User'
-import AddBlog from './AddBlog'
-import Login from './Login'
+import { BlogList } from '../styles/components'
 import { Link } from 'react-router-dom'
 
-
-
-const Blogs = ({sortedBlogs}) => {
-  
-
-
-
-	
-
-
-
-  
-  
-
-  
-
+const Blogs = ({ sortedBlogs }) => {
   return (
     <div>
-
       <h2>blogs</h2>
 
-     
-     <p/>
-	
-      {sortedBlogs.map(blog => (
-  <div key={blog.id}>
-    <Link to={`/blogs/${blog.id}`}>
-      {blog.title} by {blog.author}
-    </Link>
-  </div>
-))}
-
-	  
+      <BlogList>
+        {sortedBlogs.map(blog => (
+          <div key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.title} by {blog.author}
+            </Link>
+          </div>
+        ))}
+      </BlogList>
     </div>
   )
 }

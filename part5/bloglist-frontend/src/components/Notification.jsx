@@ -1,15 +1,18 @@
+import { NotificationBox, NotificationIcon } from '../styles/components'
 
 const Notification = ({ notification }) => {
-
   if (!notification) return null
 
+  const { type, message } = notification
+
   return (
-    <div className={notification.type}>
-      {notification.message}
-    </div>
+    <NotificationBox type={type}>
+      <NotificationIcon>
+	  {type === 'error' ? '✖' : '✔'}
+      </NotificationIcon>
+      {message}
+    </NotificationBox>
   )
 }
-
-
 
 export default Notification
