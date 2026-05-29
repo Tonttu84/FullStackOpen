@@ -6,10 +6,11 @@ const BlogPage = ({ blogs, handleLike, deleteBlog, user }) => {
   const { id } = useParams()
 
   const blog = blogs.find(b => b.id === id)
+  const navigate = useNavigate()
 
   if (!blog) return null
 
-  const navigate = useNavigate()
+  
   const handleDelete = async () => {
     await deleteBlog(blog)
     navigate('/')
