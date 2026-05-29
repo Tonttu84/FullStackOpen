@@ -1,55 +1,36 @@
 
-
+import {	BlogContainer,	BlogTitle,	BlogMeta,	BlogActions,	DangerButton, OutlineButton
+  } from '../styles/components'
 
 const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 
+	if (!blog) return null
 
-	const blogStyle = {
-		paddingTop: 10,
-		paddingLeft: 2,
-		border: 'solid',
-		borderWidth: 1,
-		marginBottom: 5
-	  }
+	
 
 	
 
 	return(
-  <div  data-testid="blog" style={blogStyle}>
-    <h1 className="author"> {blog.author} </h1> 
-
-	by {blog.title}
-	
-  
-	
-		<>
-
-		<div>
+		<BlogContainer>
+ <BlogTitle>{blog.title}</BlogTitle>
 		
-        <a href={blog.url} target="_blank" rel="noopener noreferrer">
-  	{blog.url}
-		</a>
-		<br />
-		Added by {blog.user.name}
-		<br />
-		
-        
-    	  <div className="likes">
-		  {blog.likes} likes 
-      	  
+ <BlogMeta>
+        by {blog.author}<br />
+        <a href={blog.url}>{blog.url}</a><br />
+        Added by {blog.user.name}
+      </BlogMeta>
+
+	  <BlogActions>
+		{blog.likes} likes 
 		{user &&( 
-		<button onClick={() =>handleLike(blog)}>like</button>
+		<OutlineButton onClick={handleLike}>LIKE</OutlineButton>
 		)}
 		{user && blog.user.username == user.username && (
-		<button onClick={() => deleteBlog(blog)}>remove</button> 
+		<DangerButton onClick={deleteBlog}>REMOVE</DangerButton> 
 		)}
-		</div>
+		</BlogActions>
 		
-		
-      </div>
-	  </>
-	
-  </div> 
+  </BlogContainer>
   ) 
 }
 

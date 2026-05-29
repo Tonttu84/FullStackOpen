@@ -183,3 +183,76 @@ export const BoxInput = styled(Input)`
 
   background: white;
 `
+export const BlogContainer = styled.div`
+  margin: 2rem;
+  padding: 1.75rem 2rem;
+
+  background: #fafafa;
+  border-radius: 6px;
+
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.1),
+    0 1px 2px rgba(0,0,0,0.08);
+`;
+
+export const BlogTitle = styled.h2`
+  margin: 0 0 0.75rem 0;   
+  font-size: 1.8rem;
+  font-weight: 700;
+`;
+
+export const BlogMeta = styled.div`
+  margin: 0 0 0.5rem 0;   
+  font-size: 1rem;
+  color: #444;
+
+  line-height: 2;       
+
+  a {
+    color: #1976d2;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const BlogActions = styled.div`
+  margin-top: 0rem;     
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+export const OutlineButton = styled.button`
+  background: white;
+  color: #1976d2;
+  border: 2px solid #1976d2;
+
+  padding: 0.5em 1em;
+  border-radius: 4px;
+
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    background: #e3f2fd;
+  }
+`;
+
+export const DangerButton = styled(OutlineButton)`
+  color: #d32f2f;
+  border-color: #d32f2f;
+
+  &:hover {
+    background: #ffebee;
+  }
+`;
