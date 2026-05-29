@@ -41,39 +41,42 @@ const AddBlog = ({ createBlog, notifMessage }) =>  {
   
 		<form onSubmit={handleSubmit}>
 		  <div>
-			<label>
+		  <label htmlFor="title">title</label>
 				
 				<BoxInput
+				id = 'title'
 				type="text"
 				placeholder = 'title'
 				value={title}
 				onChange={({ target }) => setTitle(target.value)}
 				/>
-			</label>
+			
 		  </div>
 		  
 		  <div>
-			<label>
+		  <label htmlFor="author">author</label>
 				
 				<BoxInput
+				id = 'author'
 				type="text"
 				placeholder = 'author'
 				value={author}
 				onChange={({ target }) => setAuthor(target.value)}
 				/>
-			</label>
+			
 		   </div>
   
   		  <div>	
-			<label>
+			<label htmlFor="url">url</label>
 				
 				<BoxInput
+				id = 'url'
 				type="text"
 				placeholder = 'url'
 				value={url}
 				onChange={({ target }) => setUrl(target.value)}
 				/>
-			</label>
+			
 		  </div>
   
 		  <Button type="submit">create</Button>

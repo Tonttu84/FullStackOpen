@@ -42,26 +42,28 @@ const Login = ({setUser}) =>
 	<Notification notification={errorMessage} />
 	<form onSubmit={handleLogin}>
           <div>
-            <label>
+		  <label htmlFor="username">username</label>
               
               <Input
+			  id = 'username'
               type = 'text'
 				placeholder="username"
               value={username}
               onChange={({target}) => setUsername(target.value)}
               />
-            </label>
+           
             </div>
             <div>
-              <label>
+			<label htmlFor="password">password</label>
                 
                 <Input
+				id = 'password'
                 type = "password"
 				placeholder="password"
                 value = {password}
                 onChange={({target}) => setPassword(target.value)}
                 />
-              </label>
+              
             </div>
             <Button type="submit">login</Button>
           </form>
