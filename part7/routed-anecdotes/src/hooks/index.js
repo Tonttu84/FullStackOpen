@@ -44,6 +44,18 @@ export const useAnecdotes = () => {
 		console.error('Failed to create anecdote:', error)
 	  }
 	}
+
+	const removeAnecdote = async (anecdote) => {
+		try {
+		  await anecdoteService.deleteAnecdote(anecdote.id)
+	  
+		  setAnecdotes(prev =>
+			prev.filter(a => a.id !== anecdote.id)
+		  )
+		} catch (error) {
+		  console.error('Failed to delete anecdote:', error)
+		}
+	  }
   
-	return { anecdotes, addAnecdote }
+	return { anecdotes, addAnecdote, removeAnecdote }
   }
