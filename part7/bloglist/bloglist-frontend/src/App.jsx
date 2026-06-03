@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import {ErrorBoundary} from './components/ErrorBoundary'
 import Blogs from './components/Blogs'
 import BlogPage from './components/BlogPage'
 import Login from './components/Login'
@@ -126,6 +127,7 @@ const AppContent = () =>
         
         
 		</Navbar>
+		<ErrorBoundary>
 
 		<Notification notification={notificationMessage} />
 
@@ -154,12 +156,12 @@ const AppContent = () =>
 	 	notifMessage={notificationMessage} />
         } />
 	 
-
+	
         
         
       </Routes>
    
-    
+	  </ErrorBoundary>
          
          
         
