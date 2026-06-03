@@ -9,7 +9,10 @@
 		"develop": "cross-env NODE_ENV=development node --watch index.js",
 		"test": "cross-env NODE_ENV=test node --test",
 		"lint": "eslint .",
-		"start:test": "cross-env NODE_ENV=test node --watch index.js"
+		"start:test": "cross-env NODE_ENV=test node --watch index.js",
+		"build:ui": "cd ../bloglist-frontend && npm run build",
+		"copy:ui": "copyfiles -u 1 ../bloglist-frontend/dist/**/* dist",
+		"build": "npm run build:ui && npm run copy:ui"
 	},
 	"dependencies": {
 		"bcrypt": "^6.0.0",
