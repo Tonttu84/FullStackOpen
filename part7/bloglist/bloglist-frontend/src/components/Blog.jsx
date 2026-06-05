@@ -1,10 +1,15 @@
 
 import {	BlogContainer,	BlogTitle,	BlogMeta,	BlogActions,	DangerButton, OutlineButton
   } from '../styles/components'
+import PageNotFound from './PageNotFound'
 
 const Blog = ({ blog, handleLike, deleteBlog, user}) => {
 
-	if (!blog) return null
+	console.dir(blog)
+
+	if (!blog) return (
+		<PageNotFound></PageNotFound>
+	)
 
 	
 

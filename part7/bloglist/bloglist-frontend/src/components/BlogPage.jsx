@@ -1,6 +1,7 @@
 
 import Blog from './Blog'
 import { useParams, useNavigate } from 'react-router-dom'
+import PageNotFound from './PageNotFound'
 
 const BlogPage = ({ blogs, handleLike, deleteBlog, user }) => {
   const { id } = useParams()
@@ -8,7 +9,9 @@ const BlogPage = ({ blogs, handleLike, deleteBlog, user }) => {
   const blog = blogs.find(b => b.id === id)
   const navigate = useNavigate()
 
-  if (!blog) return null
+  if (!blog) return (
+		<PageNotFound></PageNotFound>
+	)
 
   
   const handleDelete = async () => {

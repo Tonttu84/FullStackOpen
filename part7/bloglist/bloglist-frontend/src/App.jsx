@@ -6,6 +6,7 @@ import Login from './components/Login'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
+import PageNotFound from './components/PageNotFound'
 
 import { NavLink, Navbar, LogoutButton, Spacer } from './styles/components'
 
@@ -26,6 +27,7 @@ const AppContent = () =>
     const [user, setUser] = useState(null)
     
   	const navigate = useNavigate()
+    
 
     const handleLogout = () => {
   
@@ -132,6 +134,10 @@ const AppContent = () =>
 		<Notification notification={notificationMessage} />
 
       <Routes>
+      <Route  path="*"  element={
+          <PageNotFound/>
+        } />
+      
         <Route path="/login" element={
           <Login setUser={setUser} />
         } />
