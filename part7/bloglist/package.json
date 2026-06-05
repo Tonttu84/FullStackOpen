@@ -10,10 +10,11 @@
 		"test:frontend": "npm --prefix bloglist-frontend test",
 		"test:playwright": "npm --prefix playwright-tests test",
 		"test": "npm run test:backend && npm run test:frontend && npm run test:playwright",
-		"lint": "npm --prefix bloglist-frontend run lint"
+		"lint": "prettier --write ."
 	},
 	"devDependencies": {
-		"concurrently": "^9.2.1"
+		"concurrently": "^9.2.1",
+		"prettier": "^3.8.3"
 	},
 	"dependencies": {
 		"react": "^18.3.1",
