@@ -7,9 +7,7 @@ const Notification = ({ notification }) => {
 
   return (
     <NotificationBox type={type}>
-      <NotificationIcon>
-	  {type === 'error' ? '✖' : '✔'}
-      </NotificationIcon>
+      <NotificationIcon>{type === 'error' ? '✖' : '✔'}</NotificationIcon>
       {message}
     </NotificationBox>
   )

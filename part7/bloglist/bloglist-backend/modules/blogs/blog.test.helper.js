@@ -1,30 +1,26 @@
 const jwt = require('jsonwebtoken')
 const congif = require('../../utils/config')
 
-
-
 const createToken = (user) => {
   const userForToken = {
     username: user.username,
-    id: user._id
+    id: user._id,
   }
 
   return jwt.sign(userForToken, congif.SECRET, {
-    expiresIn: '1h'
+    expiresIn: '1h',
   })
 }
 
-
 const dummy = (blogs) => {
-  void blogs;
-  return 1;
-  
+  void blogs
+  return 1
 }
 
 const totalLikes = (blogs) => {
   let result = 0
 
-  blogs.forEach(blog => {
+  blogs.forEach((blog) => {
     result += blog.likes
   })
 
@@ -34,7 +30,7 @@ const totalLikes = (blogs) => {
 const mostLikes = (blogs) => {
   const counts = {}
 
-  blogs.forEach(blog => {
+  blogs.forEach((blog) => {
     const author = blog.author
     const likes = blog.likes || 0
 
@@ -57,14 +53,14 @@ const mostLikes = (blogs) => {
 
   return {
     author: maxAuthor,
-    likes: maxLikes
+    likes: maxLikes,
   }
 }
 
 const mostBlogs = (blogs) => {
   const counts = {}
 
-  blogs.forEach(blog => {
+  blogs.forEach((blog) => {
     const author = blog.author
     counts[author] = (counts[author] || 0) + 1
   })
@@ -81,10 +77,8 @@ const mostBlogs = (blogs) => {
 
   return {
     author: maxAuthor,
-    blogs: maxBlogs
+    blogs: maxBlogs,
   }
 }
-
-
 
 module.exports = { createToken, dummy, totalLikes, mostLikes, mostBlogs }

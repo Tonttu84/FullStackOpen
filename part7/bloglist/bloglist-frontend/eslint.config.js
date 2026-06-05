@@ -10,19 +10,18 @@ module.exports = [
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
-    ...globals.browser,
-    ...globals.node,
-    ...globals.jest,
-  },
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        
-      }
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
+      'react-refresh': reactRefresh,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -30,8 +29,8 @@ module.exports = [
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true }
-      ]
-    }
-  }
+        { allowConstantExport: true },
+      ],
+    },
+  },
 ]

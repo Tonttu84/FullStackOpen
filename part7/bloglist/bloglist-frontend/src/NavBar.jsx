@@ -1,35 +1,25 @@
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link
-} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import Login from './components/Login'
 
-
-const NavBar = ({setUser}) => 
-{
-
-     const padding = {
-    padding: 5
+const NavBar = ({ setUser }) => {
+  const padding = {
+    padding: 5,
   }
 
-    return (
-          <Router>
+  return (
+    <Router>
       <div>
-        
-        <Link style={padding} to="/login">login</Link>
-        
+        <Link style={padding} to="/login">
+          login
+        </Link>
       </div>
 
       <Routes>
-        <Route path="/login" element={
-          <Login setUser={setUser} />
-        } />
-        
-        
+        <Route path="/login" element={<Login setUser={setUser} />} />
       </Routes>
     </Router>
-    )
+  )
 }
 
 export default NavBar

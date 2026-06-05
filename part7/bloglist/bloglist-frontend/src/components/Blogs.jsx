@@ -7,7 +7,7 @@ const Blogs = ({ sortedBlogs }) => {
       <h2>blogs</h2>
 
       <BlogList>
-        {sortedBlogs.map(blog => (
+        {sortedBlogs.map((blog) => (
           <div key={blog.id}>
             <Link to={`/blogs/${blog.id}`}>
               {blog.title} by {blog.author}

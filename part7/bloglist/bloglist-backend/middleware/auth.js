@@ -13,37 +13,33 @@ const tokenExtractor = (request, response, next) => {
 
   request.token = token
 
-  return next(); 
+  return next()
 }
 
-const userExtractor =  (request, response, next) => {
-try {
-    
-
+const userExtractor = (request, response, next) => {
+  try {
     if (!request.token) {
-    logger.warn('Token missing before verification')
-    return response.status(401).json({ error: 'token missing' })
+      logger.warn('Token missing before verification')
+      return response.status(401).json({ error: 'token missing' })
     }
 
     const decodedToken = jwt.verify(request.token, congif.SECRET)
 
     if (!decodedToken.id) {
-        logger.warn({
+      logger.warn({
         message: 'Token missing id',
-        }) 
-        return response.status(401).json({ error: 'token invalid' })
+      })
+      return response.status(401).json({ error: 'token invalid' })
     }
 
     request.userId = decodedToken.id
-    request.user = decodedToken.user;
-    
+    request.user = decodedToken.user
 
     next()
   } catch (error) {
-    void error;
+    void error
     return response.status(401).json({ error: 'token invalid' })
   }
 }
 
-
-module.exports = {tokenExtractor, userExtractor}
+module.exports = { tokenExtractor, userExtractor }
