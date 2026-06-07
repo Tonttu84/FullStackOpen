@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../../app')
 const listHelper = require('./blog.test.helper')
-const Blog = require('./blog.model')
 const User = require('../users/user.model')
 const db = require('./blog.test.database')
 const { blogs } = require('./blog.test.data')
@@ -129,8 +128,8 @@ test('blog backend tests', async (t) => {
 
       assert.strictEqual(response.body.likes, 0)
     } catch (error) {
-      //console.log('Full error:', error)
-      //console.log('Message:', error.message)
+      console.log('Full error:', error)
+      console.log('Message:', error.message)
 
       throw error
     }

@@ -2,8 +2,6 @@ const test = require('node:test')
 const assert = require('node:assert')
 const supertest = require('supertest')
 const app = require('../../app')
-
-const Blog = require('../blogs/blog.model')
 const User = require('./user.model')
 const db = require('../blogs/blog.test.database')
 
