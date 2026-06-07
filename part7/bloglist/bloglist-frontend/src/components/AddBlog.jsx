@@ -31,7 +31,7 @@ const AddBlog = ({ createBlog }) => {
 
       <h2>create new</h2>
 
-      <Notification />
+    
 
       <form onSubmit={handleSubmit}>
         <div>

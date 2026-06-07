@@ -4,16 +4,19 @@ import loginService from '../services/login'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input, HiddenLabel } from '../styles/components'
+import { useNotification } from '../stores/notificationStore'
 
 const Login = ({ setUser }) => {
   const Navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const setNotification = useNotification(state => state.setNotification)
+
 
   const handleLogin = async (event) => {
     event.preventDefault()
+    console.log('From handlelogin')
     try {
       const response = await loginService.login({ username, password })
 
@@ -22,21 +25,19 @@ const Login = ({ setUser }) => {
       blogService.setToken(response.token)
       Navigate('/')
     } catch (error) {
+      console.log('From catch')
       console.error('login failed', error)
 
-      setErrorMessage({
-        type: 'error',
-        message: 'Invalid username or password',
-      })
-      setTimeout(() => setErrorMessage(null), 5000)
-      setUser(null)
+      setNotification({
+  type: 'error',
+  message: 'Invalid username or password',
+})
     }
   }
 
   return (
     <>
       <h2>Log in to application</h2>
-      <Notification notification={errorMessage} />
       <form onSubmit={handleLogin}>
         <div>
           <HiddenLabel htmlFor="username">username</HiddenLabel>

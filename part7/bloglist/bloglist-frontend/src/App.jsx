@@ -7,7 +7,7 @@ import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import PageNotFound from './components/PageNotFound'
-import { useNotification } from '../stores/notificationStore'
+import { useNotification } from './stores/notificationStore'
 
 import { NavLink, Navbar, LogoutButton, Spacer } from './styles/components'
 
@@ -43,7 +43,7 @@ const AppContent = () => {
 
       await refreshBlogs()
 
-      //console.log('Created blog:', createdBlog)
+      console.log('from createBlog:')
 
       setNotification({
         type: 'success',
