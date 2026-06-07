@@ -3,7 +3,7 @@ import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
 import { Button, BoxInput, HiddenLabel } from '../styles/components'
 
-const AddBlog = ({ createBlog, notifMessage }) => {
+const AddBlog = ({ createBlog }) => {
   const navigate = useNavigate()
 
   const [title, setTitle] = useState('')
@@ -31,7 +31,7 @@ const AddBlog = ({ createBlog, notifMessage }) => {
 
       <h2>create new</h2>
 
-      <Notification notification={notifMessage} />
+      <Notification />
 
       <form onSubmit={handleSubmit}>
         <div>

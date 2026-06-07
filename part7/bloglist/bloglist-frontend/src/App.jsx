@@ -7,6 +7,7 @@ import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import PageNotFound from './components/PageNotFound'
+import { useNotification } from '../stores/notificationStore'
 
 import { NavLink, Navbar, LogoutButton, Spacer } from './styles/components'
 
@@ -21,7 +22,8 @@ import {
 const AppContent = () => {
   const [blogs, setBlogs] = useState([])
 
-  const [notificationMessage, setNotificationMessage] = useState(null)
+  const { setNotification } = useNotification()
+  
 
   const [user, setUser] = useState(null)
 
@@ -43,20 +45,20 @@ const AppContent = () => {
 
       //console.log('Created blog:', createdBlog)
 
-      setNotificationMessage({
+      setNotification({
         type: 'success',
         message: `${createdBlog.title || 'Unknown title'} by ${createdBlog.author || 'Unknown author'} added`,
       })
-      //console.log('Notification set to :', notificationMessage)
-      setTimeout(() => setNotificationMessage(null), 5000)
+      
+      
     } catch (error) {
       //console.error('Error creating blog:', error)
       void error
-      setNotificationMessage({
+      setNotification({
         type: 'error',
         message: 'Failed to add blog',
       })
-      setTimeout(() => setNotificationMessage(null), 5000)
+      
     }
   }
   const deleteBlog = async (blog) => {
@@ -106,7 +108,7 @@ const AppContent = () => {
         {user && <LogoutButton onClick={handleLogout}>logout</LogoutButton>}
       </Navbar>
       <ErrorBoundary>
-        <Notification notification={notificationMessage} />
+        <Notification />
 
         <Routes>
           <Route path="*" element={<PageNotFound />} />
@@ -131,7 +133,7 @@ const AppContent = () => {
             element={
               <AddBlog
                 createBlog={createBlog}
-                notifMessage={notificationMessage}
+                
               />
             }
           />
