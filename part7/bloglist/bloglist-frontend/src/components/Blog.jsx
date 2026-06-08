@@ -7,9 +7,20 @@ import {
   OutlineButton,
 } from '../styles/components'
 import PageNotFound from './PageNotFound'
+import { useBlogs } from '../stores/blogStore'
+import {  useNavigate } from 'react-router-dom'
 
-const Blog = ({ blog, handleLike, deleteBlog, user }) => {
+const Blog = ({ blog,  user }) => {
   console.dir(blog)
+
+  const navigate = useNavigate()
+
+   const {  deleteBlog, addLike } = useBlogs()
+
+    const handleDelete = async () => {
+    await deleteBlog(blog)
+    navigate('/')
+  }
 
   if (!blog) return <PageNotFound></PageNotFound>
 
@@ -28,10 +39,10 @@ const Blog = ({ blog, handleLike, deleteBlog, user }) => {
       <BlogActions>
         {blog.likes} likes
         {user && (
-          <OutlineButton onClick={() => handleLike(blog)}>LIKE</OutlineButton>
+          <OutlineButton onClick={() => addLike(blog)}>LIKE</OutlineButton>
         )}
         {user && blog.user.username == user.username && (
-          <DangerButton onClick={() => deleteBlog(blog)}>REMOVE</DangerButton>
+          <DangerButton onClick={() => handleDelete()}>REMOVE</DangerButton>
         )}
       </BlogActions>
     </BlogContainer>

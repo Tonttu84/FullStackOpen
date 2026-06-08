@@ -2,18 +2,21 @@ import { useState } from 'react'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
 import { Button, BoxInput, HiddenLabel } from '../styles/components'
+import { useBlogs } from '../stores/blogStore'
 
-const AddBlog = ({ createBlog }) => {
+const AddBlog = () => {
   const navigate = useNavigate()
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+   const { addBlog } = useBlogs()
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    await createBlog({
+    await addBlog({
       title,
       author,
       url,

@@ -7,7 +7,10 @@ import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import PageNotFound from './components/PageNotFound'
-import { useNotification } from './stores/notificationStore'
+
+import { useBlogs } from './stores/blogStore'
+
+
 
 import { NavLink, Navbar, LogoutButton, Spacer } from './styles/components'
 
@@ -20,10 +23,11 @@ import {
 } from 'react-router-dom'
 
 const AppContent = () => {
-  const [blogs, setBlogs] = useState([])
-
-  const { setNotification } = useNotification()
   
+
+ 
+  
+  const { blogs,  initializeBlogs } = useBlogs()
 
   const [user, setUser] = useState(null)
 
@@ -37,63 +41,16 @@ const AppContent = () => {
     navigate('/')
   }
 
-  const createBlog = async (newBlog) => {
-    try {
-      const createdBlog = await blogService.create(newBlog)
-
-      await refreshBlogs()
-
-      console.log('from createBlog:')
-
-      setNotification({
-        type: 'success',
-        message: `${createdBlog.title || 'Unknown title'} by ${createdBlog.author || 'Unknown author'} added`,
-      })
-      
-      
-    } catch (error) {
-      //console.error('Error creating blog:', error)
-      void error
-      setNotification({
-        type: 'error',
-        message: 'Failed to add blog',
-      })
-      
-    }
-  }
-  const deleteBlog = async (blog) => {
-    try {
-      await blogService.deleteBlog(blog)
-
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
-    } catch (error) {
-      console.error('delete failed', error)
-    }
-  }
-
-  const refreshBlogs = async () => {
-    const blogs = await blogService.getAll()
-    setBlogs(blogs)
-  }
 
   useEffect(() => {
-    refreshBlogs()
-  }, [])
-
-  const handleLike = async (blog) => {
-    const updatedBlog = {
-      ...blog,
-      likes: (blog.likes || 0) + 1,
-    }
-
-    delete updatedBlog.user
-
-    const returnedBlog = await blogService.like(updatedBlog)
-
-    setBlogs((prev) => prev.map((b) => (b.id === blog.id ? returnedBlog : b)))
-  }
+  initializeBlogs()
+}, [])
+  
 
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
+
+
+  console.log(blogs)
 
   return (
     <>
@@ -120,9 +77,6 @@ const AppContent = () => {
             path="/blogs/:id"
             element={
               <BlogPage
-                blogs={blogs}
-                deleteBlog={deleteBlog}
-                handleLike={handleLike}
                 user={user}
               />
             }
@@ -132,7 +86,7 @@ const AppContent = () => {
             path="/create"
             element={
               <AddBlog
-                createBlog={createBlog}
+                
                 
               />
             }
