@@ -24,13 +24,13 @@ export const useBlogs = create((set) => ({
         blogs: [...state.blogs, newBlog],
       }))
 
-      useNotification.setNotification({
+      useNotification.getState().setNotification({
         type: 'success',
         message: `${newBlog.title || 'Unknown title'} by ${newBlog.author || 'Unknown author'} added`,
       })
     } catch (error) {
       void error
-      useNotification.setNotification({
+      useNotification.getState().setNotification({
         type: 'error',
         message: 'Failed to add blog',
       })
