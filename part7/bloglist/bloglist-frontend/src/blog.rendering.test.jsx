@@ -7,6 +7,13 @@ import Blog from './components/Blog'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 
+const renderWithRouter = (component) =>
+  render(
+    <MemoryRouter>
+      {component}
+    </MemoryRouter>
+  )
+
 afterEach(() => {
   cleanup()
 })
@@ -21,9 +28,8 @@ describe('Blog component for unauthenticated users', () => {
   }
 
   beforeEach(() => {
-    <MemoryRouter>
-    render(<Blog blog={validBlog} />)
-    </MemoryRouter>
+    
+    renderWithRouter(<Blog blog={validBlog} />)
   })
 
   test('renders title and author', () => {
@@ -65,7 +71,7 @@ test('The owner can also see a delete buttons', () => {
     user: validUser,
   }
 
-  render(<Blog blog={validBlog} user={validUser} />)
+  renderWithRouter(<Blog blog={validBlog} user={validUser} />)
 
   expect(screen.queryByRole('button', { name: /remove/i })).toBeInTheDocument()
 })
@@ -87,7 +93,7 @@ test('A logged in user can see the like button', () => {
     user: owner,
   }
 
-  render(<Blog blog={validBlog} user={validUser} />)
+  renderWithRouter(<Blog blog={validBlog} user={validUser} />)
 
   expect(screen.queryByRole('button', { name: /like/i })).toBeInTheDocument()
 
@@ -105,12 +111,12 @@ test(' blogs URL and number of likes are shown when the button controlling the s
     user: '123',
   }
 
-  const mockHandler = vi.fn()
+  
 
-  render(
+  renderWithRouter(
     <Blog
       blog={validBlog}
-      handleLike={mockHandler}
+      
       user={{ username: 'someone' }}
     />,
   )
@@ -134,10 +140,10 @@ test('clicking the button calls event handler once', async () => {
 
   const mockHandler = vi.fn()
 
-  render(
+  renderWithRouter(
     <Blog
       blog={validBlog}
-      handleLike={mockHandler}
+      
       user={{ username: 'someone' }}
     />,
   )

@@ -4,14 +4,22 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 
+const renderWithRouter = (component) =>
+  render(
+    <MemoryRouter>
+      {component}
+    </MemoryRouter>
+  )
+
+
 test('<AddBlog /> calls the event handler it received as props with the right details when a new blog is created', async () => {
   const mockCreate = vi.fn()
   const user = userEvent.setup()
 
-  render(
-    <MemoryRouter>
+  renderWithRouter(
+    
       <AddBlog createBlog={mockCreate} notifMessage={null} />
-    </MemoryRouter>,
+    
   )
 
   const inputs = screen.getAllByRole('textbox')
