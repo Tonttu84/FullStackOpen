@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './components/Blog'
 import { vi } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
 
 afterEach(() => {
   cleanup()
@@ -20,7 +21,9 @@ describe('Blog component for unauthenticated users', () => {
   }
 
   beforeEach(() => {
+    <MemoryRouter>
     render(<Blog blog={validBlog} />)
+    </MemoryRouter>
   })
 
   test('renders title and author', () => {
