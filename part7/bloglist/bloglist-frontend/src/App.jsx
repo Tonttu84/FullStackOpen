@@ -5,11 +5,15 @@ import BlogPage from './components/BlogPage'
 import Login from './components/Login'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
+import Users from './components/Users'
 
 import PageNotFound from './components/PageNotFound'
 
 import { useBlogs } from './stores/blogStore'
 import { userStore } from './stores/userStore'
+
+import { getAll as getUsers } from './services/user'
+import UserPage from './components/UserPage'
 
 
 
@@ -60,6 +64,7 @@ const AppContent = () => {
 
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
+  console.dir(getUsers())
 
   // console.log(blogs)
   // console.dir(user)
@@ -72,6 +77,7 @@ const AppContent = () => {
         <Spacer />
 
         <NavLink to="/">blogs</NavLink>
+        <NavLink to="/users">users</NavLink>
         {!user && <NavLink to="/login">login</NavLink>}
         {user && <NavLink to="/create">new blog</NavLink>}
         {user && <LogoutButton onClick={handleLogout}>logout</LogoutButton>}
@@ -84,15 +90,13 @@ const AppContent = () => {
 
           <Route path="/login" element={<Login  />} />
           <Route path="/" element={<Blogs sortedBlogs={sortedBlogs} />} />
+          <Route path="/users" element={<Users />} />
 
-          <Route
-            path="/blogs/:id"
-            element={
-              <BlogPage
-                user={user}
-              />
-            }
-          />
+          <Route path="/users/:id" element={<UserPage />} />
+
+        
+
+  
 
           <Route
             path="/create"

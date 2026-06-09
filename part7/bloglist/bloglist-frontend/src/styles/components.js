@@ -238,3 +238,29 @@ export const DangerButton = styled(OutlineButton)`
     background: #ffebee;
   }
 `
+
+export const UsersHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-weight: 700;
+  margin: 1rem 2rem 0.5rem 2rem;
+`
+
+export const UserRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  margin: 0.25rem 2rem;
+  padding: 0.25rem 0;
+
+  border-bottom: 1px solid #eee;
+`
+export const AppLink = styled(Link)`
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
