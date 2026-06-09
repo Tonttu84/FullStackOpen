@@ -22,6 +22,12 @@ const blogSchema = mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  comments: [
+    {
+      type: String,
+      default: [],
+    }
+  ]
 })
 
 blogSchema.index({ title: 1, author: 1, url: 1 }, { unique: true })

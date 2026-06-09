@@ -132,4 +132,25 @@ blogRouter.post('/:id/like', tokenExtractor, async (req, res) => {
   res.json(blog)
 })
 
+blogRouter.post('/:id/comments', tokenExtractor, async (req, res) => {
+  const { id } = req.params
+  const { comment } = req.body
+
+  if (!req.userId) {
+    return res.status(403).json({ error: 'User must be logged in' })
+  }
+
+  const blog = await Blog.findByIdAndUpdate(
+    id,
+    { $push: { comments: comment } },
+    { new: true, runValidators: true }
+  )
+
+  if (!blog) {
+    return res.status(404).json({ error: 'not found' })
+  }
+
+  res.json(blog)
+})
+
 module.exports = blogRouter
