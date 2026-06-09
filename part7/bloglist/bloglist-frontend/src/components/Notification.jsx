@@ -4,7 +4,7 @@ import { useNotification } from '../stores/notificationStore'
 const Notification = () => {
   const notification = useNotification((state) => state.notification)
 
-  console.log("Notification render:", notification)
+  // console.log("Notification render:", notification)
   
   if (!notification) return null
 

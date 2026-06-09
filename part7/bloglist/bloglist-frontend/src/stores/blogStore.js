@@ -19,7 +19,7 @@ export const useBlogs = create((set) => ({
   addBlog: async (blog) => {
     try {
       const newBlog = await blogService.create(blog)
-
+     
       set((state) => ({
         blogs: [...state.blogs, newBlog],
       }))

@@ -30,7 +30,7 @@ const AppContent = () => {
   
   const { blogs,  initializeBlogs } = useBlogs()
 
-  const {user, logout} = userStore()
+  const {user, logout, initUser} = userStore()
 
   const navigate = useNavigate()
 
@@ -49,6 +49,9 @@ const AppContent = () => {
   }
 
 
+    useEffect(() => {
+  initUser()
+}, [initUser])
 
   useEffect(() => {
   initializeBlogs()
@@ -58,8 +61,8 @@ const AppContent = () => {
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
 
-  console.log(blogs)
-  console.dir(user)
+  // console.log(blogs)
+  // console.dir(user)
 
   return (
     <>

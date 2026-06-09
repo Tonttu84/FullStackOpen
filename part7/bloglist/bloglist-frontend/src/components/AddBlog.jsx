@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useField } from '../hooks/useField'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
 import { Button, BoxInput, HiddenLabel } from '../styles/components'
@@ -7,9 +7,10 @@ import { useBlogs } from '../stores/blogStore'
 const AddBlog = ({ createBlog }) => {
   const navigate = useNavigate()
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
+    const title = useField('title')
+    const author = useField('author')
+    const url = useField('text')
 
    const { addBlog } = useBlogs()
 
@@ -18,21 +19,19 @@ const AddBlog = ({ createBlog }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    createBlog({
-      title,
-      author,
-      url,
-    })//does nothing for testing 
+
+    createBlog?.({
+  title: title.value,
+  author: author.value,
+  url: url.value,
+  })//does nothing for testing only
 
     await addBlog({
-      title,
-      author,
-      url,
+      title: title.value,
+      author : author.value,
+      url: url.value,
     })
 
-    setTitle('')
-    setAuthor('')
-    setUrl('')
     navigate('/')
   }
 
@@ -50,10 +49,9 @@ const AddBlog = ({ createBlog }) => {
 
           <BoxInput
             id="title"
-            type="text"
+            
             placeholder="title"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
+            {...title}
           />
         </div>
 
@@ -62,10 +60,9 @@ const AddBlog = ({ createBlog }) => {
 
           <BoxInput
             id="author"
-            type="text"
+        
             placeholder="author"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
+            {...author}
           />
         </div>
 
@@ -74,10 +71,10 @@ const AddBlog = ({ createBlog }) => {
 
           <BoxInput
             id="url"
-            type="text"
+            
             placeholder="url"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
+            
+            {...url}
           />
         </div>
 

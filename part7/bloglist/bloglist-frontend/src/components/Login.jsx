@@ -1,6 +1,4 @@
-import { useState } from 'react'
-
-import loginService from '../services/login'
+import { useField } from '../hooks/useField'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input, HiddenLabel } from '../styles/components'
@@ -9,8 +7,8 @@ import { userStore } from '../stores/userStore'
 
 const Login = () => {
   const Navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
 
   const setNotification = useNotification(state => state.setNotification)
 
@@ -21,12 +19,11 @@ const Login = () => {
     event.preventDefault()
     
     try {
-      await loginService.login({ username, password })
 
-      login({
-    username,
-    password,
-  })
+     await login({
+        username: username.value,
+        password: password.value,
+      })
       Navigate('/')
     } catch (error) {
       console.log('From catch')
@@ -45,25 +42,11 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         <div>
           <HiddenLabel htmlFor="username">username</HiddenLabel>
-
-          <Input
-            id="username"
-            type="text"
-            placeholder="username"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <Input id="username" placeholder="username" {...username} />
         </div>
         <div>
           <HiddenLabel htmlFor="password">password</HiddenLabel>
-
-          <Input
-            id="password"
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <Input id="password" placeholder="password" {...password} />
         </div>
         <Button type="submit">login</Button>
       </form>
