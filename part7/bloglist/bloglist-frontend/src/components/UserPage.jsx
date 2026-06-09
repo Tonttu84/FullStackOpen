@@ -14,13 +14,11 @@ const UserPage = () => {
     getUsers().then(setUsers)
   }, [])
 
-  const user = users.find(u => u.id === id)
+  const user = users.find((u) => u.id === id)
 
   if (!user) return <div>Loading...</div>
 
-  const filteredBlogs = blogs.filter(
-    b => b.user?.id === user.id
-  )
+  const filteredBlogs = blogs.filter((b) => b.user?.id === user.id)
 
   return (
     <>
@@ -28,7 +26,7 @@ const UserPage = () => {
       <h2>added blogs</h2>
 
       <BlogList>
-        {filteredBlogs.map(blog => (
+        {filteredBlogs.map((blog) => (
           <div key={blog.id}>
             {blog.title} by {blog.author}
           </div>

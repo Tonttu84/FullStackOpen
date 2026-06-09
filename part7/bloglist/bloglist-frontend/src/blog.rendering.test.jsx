@@ -8,11 +8,7 @@ import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 
 const renderWithRouter = (component) =>
-  render(
-    <MemoryRouter>
-      {component}
-    </MemoryRouter>
-  )
+  render(<MemoryRouter>{component}</MemoryRouter>)
 
 afterEach(() => {
   cleanup()
@@ -28,7 +24,6 @@ describe('Blog component for unauthenticated users', () => {
   }
 
   beforeEach(() => {
-    
     renderWithRouter(<Blog blog={validBlog} />)
   })
 
@@ -111,15 +106,7 @@ test(' blogs URL and number of likes are shown when the button controlling the s
     user: '123',
   }
 
-  
-
-  renderWithRouter(
-    <Blog
-      blog={validBlog}
-      
-      user={{ username: 'someone' }}
-    />,
-  )
+  renderWithRouter(<Blog blog={validBlog} user={{ username: 'someone' }} />)
 
   //const user = userEvent.setup() unus
 

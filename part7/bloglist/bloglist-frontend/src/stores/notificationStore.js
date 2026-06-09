@@ -4,10 +4,10 @@ export const useNotification = create((set) => ({
   notification: null,
 
   setNotification: (notification) => {
-  set({ notification })
+    set({ notification })
 
-  setTimeout(() => {
-    set({ notification: null })
-  }, 5000)
-},
+    setTimeout(() => {
+      set({ notification: null })
+    }, 5000)
+  },
 }))

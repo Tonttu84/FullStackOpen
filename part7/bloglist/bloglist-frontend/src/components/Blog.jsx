@@ -8,16 +8,16 @@ import {
 } from '../styles/components'
 import PageNotFound from './PageNotFound'
 import { useBlogs } from '../stores/blogStore'
-import {  useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-const Blog = ({ blog, likeDummy,  user }) => {
+const Blog = ({ blog, likeDummy, user }) => {
   console.dir(blog)
 
   const navigate = useNavigate()
 
-   const {  deleteBlog, addLike } = useBlogs()
+  const { deleteBlog, addLike } = useBlogs()
 
-    const handleDelete = async () => {
+  const handleDelete = async () => {
     await deleteBlog(blog)
     navigate('/')
   }
@@ -43,9 +43,7 @@ const Blog = ({ blog, likeDummy,  user }) => {
 
       <BlogActions>
         {blog.likes} likes
-        {user && (
-          <OutlineButton onClick={handleLike}>LIKE</OutlineButton>
-        )}
+        {user && <OutlineButton onClick={handleLike}>LIKE</OutlineButton>}
         {user && blog.user.username == user.username && (
           <DangerButton onClick={() => handleDelete()}>REMOVE</DangerButton>
         )}

@@ -5,10 +5,7 @@ export const getUser = () => {
 }
 
 export const saveUser = (user) => {
-  window.localStorage.setItem(
-    'loggedBlogappUser',
-    JSON.stringify(user)
-  )
+  window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 }
 
 export const removeUser = () => {

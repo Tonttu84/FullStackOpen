@@ -10,17 +10,15 @@ const Login = () => {
   const username = useField('text')
   const password = useField('password')
 
-  const setNotification = useNotification(state => state.setNotification)
+  const setNotification = useNotification((state) => state.setNotification)
 
-
-    const { login} = userStore()
+  const { login } = userStore()
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
-    try {
 
-     await login({
+    try {
+      await login({
         username: username.value,
         password: password.value,
       })
@@ -30,9 +28,9 @@ const Login = () => {
       console.error('login failed', error)
 
       setNotification({
-  type: 'error',
-  message: 'Invalid username or password',
-})
+        type: 'error',
+        message: 'Invalid username or password',
+      })
     }
   }
 

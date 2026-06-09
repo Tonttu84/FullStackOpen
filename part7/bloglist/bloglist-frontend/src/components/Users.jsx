@@ -19,11 +19,9 @@ const Users = () => {
         <div>Blogs</div>
       </UsersHeader>
 
-      {users.map(user => (
+      {users.map((user) => (
         <UserRow key={user.id}>
-          <AppLink to={`/users/${user.id}`}>
-            {user.name}
-          </AppLink>
+          <AppLink to={`/users/${user.id}`}>{user.name}</AppLink>
 
           <div>{user.username}</div>
           <div>{user.blogs.length}</div>
