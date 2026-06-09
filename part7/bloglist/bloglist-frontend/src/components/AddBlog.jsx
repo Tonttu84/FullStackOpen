@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, BoxInput, HiddenLabel } from '../styles/components'
 import { useBlogs } from '../stores/blogStore'
 
-const AddBlog = () => {
+const AddBlog = ({ createBlog }) => {
   const navigate = useNavigate()
 
   const [title, setTitle] = useState('')
@@ -13,8 +13,12 @@ const AddBlog = () => {
 
    const { addBlog } = useBlogs()
 
+
+
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+    createBlog() //does nothing for testing 
 
     await addBlog({
       title,

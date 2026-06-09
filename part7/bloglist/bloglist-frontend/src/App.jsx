@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import Blogs from './components/Blogs'
 import BlogPage from './components/BlogPage'
 import Login from './components/Login'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
+
 import PageNotFound from './components/PageNotFound'
 
 import { useBlogs } from './stores/blogStore'
+import { userStore } from './stores/userStore'
 
 
 
@@ -25,32 +26,40 @@ import {
 const AppContent = () => {
   
 
- 
+
   
   const { blogs,  initializeBlogs } = useBlogs()
 
-  const [user, setUser] = useState(null)
+  const {user, logout} = userStore()
 
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    setUser(null)
-    blogService.setToken(null)
-    localStorage.removeItem('loggedBlogUser')
+
+    logout()
+    
 
     navigate('/')
   }
 
 
+  const createBlog = () =>
+  {
+    
+  }
+
+
+
   useEffect(() => {
   initializeBlogs()
-}, [])
+}, [initializeBlogs])
   
 
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
 
   console.log(blogs)
+  console.dir(user)
 
   return (
     <>
@@ -70,7 +79,7 @@ const AppContent = () => {
         <Routes>
           <Route path="*" element={<PageNotFound />} />
 
-          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/login" element={<Login  />} />
           <Route path="/" element={<Blogs sortedBlogs={sortedBlogs} />} />
 
           <Route
@@ -85,7 +94,7 @@ const AppContent = () => {
           <Route
             path="/create"
             element={
-              <AddBlog
+              <AddBlog createBlog = {createBlog}
                 
                 
               />

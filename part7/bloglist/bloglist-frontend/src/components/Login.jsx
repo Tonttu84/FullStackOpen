@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
+
 import loginService from '../services/login'
 import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input, HiddenLabel } from '../styles/components'
 import { useNotification } from '../stores/notificationStore'
+import { userStore } from '../stores/userStore'
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const Navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -14,15 +15,18 @@ const Login = ({ setUser }) => {
   const setNotification = useNotification(state => state.setNotification)
 
 
+    const { login} = userStore()
+
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('From handlelogin')
+    
     try {
-      const response = await loginService.login({ username, password })
+      await loginService.login({ username, password })
 
-      setUser(response)
-      localStorage.setItem('loggedBlogUser', JSON.stringify(response))
-      blogService.setToken(response.token)
+      login({
+    username,
+    password,
+  })
       Navigate('/')
     } catch (error) {
       console.log('From catch')

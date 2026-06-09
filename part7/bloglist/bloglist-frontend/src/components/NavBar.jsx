@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import Login from './Login'
 
-const NavBar = ({ setUser }) => {
+const NavBar = () => {
   const padding = {
     padding: 5,
   }
@@ -16,7 +16,7 @@ const NavBar = ({ setUser }) => {
       </div>
 
       <Routes>
-        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/login" element={<Login  />} />
       </Routes>
     </Router>
   )
