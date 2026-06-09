@@ -18,7 +18,11 @@ const AddBlog = ({ createBlog }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    createBlog() //does nothing for testing 
+    createBlog({
+      title,
+      author,
+      url,
+    })//does nothing for testing 
 
     await addBlog({
       title,

@@ -143,7 +143,7 @@ test('clicking the button calls event handler once', async () => {
   renderWithRouter(
     <Blog
       blog={validBlog}
-      
+      likeDummy={mockHandler}
       user={{ username: 'someone' }}
     />,
   )
