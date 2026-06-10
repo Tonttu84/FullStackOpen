@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from './api'
 const baseUrl = '/api/blogs'
 
 let token = null
@@ -8,12 +8,12 @@ const setToken = (newToken) => {
 }
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const request = api.get(baseUrl)
   return request.then((response) => response.data)
 }
 
 const getBlog = (id) => {
-  const request = axios.get(`${baseUrl}/${id}`)
+  const request = api.get(`${baseUrl}/${id}`)
   return request.then((response) => response.data)
 }
 
@@ -22,18 +22,26 @@ const create = async (newBlog) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.post(baseUrl, newBlog, config)
+  const response = await api.post(baseUrl, newBlog, config)
   return response.data
 }
 
-//needs to be fixed to match the assignment, put
+
 const like = async (blog) => {
   const config = {
     headers: { Authorization: token },
   }
 
-  blog.likes = blog.likes + 1
-  const response = await axios.put(`${baseUrl}/${blog.id}`, blog, config)
+  const updatedBlog = {
+    ...blog,
+    likes: blog.likes + 1,
+  }
+
+  const response = await api.put(
+    `${baseUrl}/${blog.id}`,
+    updatedBlog,
+    config
+  )
 
   return response.data
 }
@@ -43,7 +51,7 @@ const deleteBlog = async (blog) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.delete(`${baseUrl}/${blog.id}`, config)
+  const response = await api.delete(`${baseUrl}/${blog.id}`, config)
 
   return response.data
 }

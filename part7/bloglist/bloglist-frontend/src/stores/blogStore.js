@@ -40,6 +40,7 @@ export const useBlogs = create((set) => ({
   deleteBlog: async (blog) => {
     try {
       await blogService.deleteBlog(blog)
+      console.log('got here')
 
       set((state) => ({
         blogs: state.blogs.filter((b) => b.id !== blog.id),

@@ -60,6 +60,8 @@ blogRouter.delete(
   async (request, response) => {
     const { id } = request.params
 
+    
+    console.log('DELETE ROUTE HIT')
     const blog = await Blog.findById(id)
     if (!blog) {
       return response.status(404).json({ error: 'blog not found' })
