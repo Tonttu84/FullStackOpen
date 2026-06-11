@@ -264,3 +264,8 @@ export const AppLink = styled(Link)`
     text-decoration: underline;
   }
 `
+export const CommentFormRow = styled.div`
+  display: flex;
+  gap: 0.5rem; /* adjust spacing here */
+  align-items: center;
+`

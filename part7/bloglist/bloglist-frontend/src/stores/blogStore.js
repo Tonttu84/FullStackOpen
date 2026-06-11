@@ -67,4 +67,20 @@ export const useBlogs = create((set) => ({
         .setNotification(error.response?.data?.error || error.message)
     }
   },
+
+  addComment: async (blog, comment) => {
+  try {
+    const updatedBlog = await blogService.addComment(blog, comment)
+
+    set((state) => ({
+      blogs: state.blogs.map((b) =>
+        b.id === updatedBlog.id ? updatedBlog : b
+      ),
+    }))
+  } catch (error) {
+    useNotification
+      .getState()
+      .setNotification(error.response?.data?.error || error.message)
+  }
+},
 }))

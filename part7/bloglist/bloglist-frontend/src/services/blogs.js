@@ -56,4 +56,16 @@ const deleteBlog = async (blog) => {
   return response.data
 }
 
-export default { getAll, getBlog, create, setToken, like, deleteBlog }
+const addComment = async (blog, comment) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await api.post(`${baseUrl}/${blog.id}/comments`, 
+    { comment }, 
+    config)
+
+  return response.data
+}
+
+export default { getAll, getBlog, create, setToken, like, deleteBlog, addComment }
