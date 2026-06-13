@@ -60,7 +60,7 @@ const App = () => {
 	  };
 	if (!NewName)
 	{
-		alert('Name is empty');
+		showNotification('Name is empty', "error");
 		return; 
 	}
 	const existingPerson = persons.find(p => p.name === NewName)
@@ -72,7 +72,7 @@ const App = () => {
 		}
 		if (existingPerson.number === NewNumber)
 		{
-			alert(`${NewName} is already added`)
+		
 			showNotification(`${NewName} is already added`, "error")
 			return;
 		}
