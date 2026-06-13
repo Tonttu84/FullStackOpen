@@ -64,29 +64,42 @@ const App = () => {
 		return; 
 	}
 	const existingPerson = persons.find(p => p.name === NewName)
-	if(existingPerson)
-	{
-		const updatedPerson = {
-		...existingPerson,
-		number: NewNumber
-		}
-		if (existingPerson.number === NewNumber)
+	if (existingPerson)
 		{
+			personService
+			  .update(existingPerson.id, updatedPerson)
+			  .then(returnedPerson => {
+				setPersons(prev =>
+				  prev.map(p =>
+					p.id !== returnedPerson.id ? p : returnedPerson
+				  )
+				)
 		
-			showNotification(`${NewName} is already added`, "error")
+				showNotification(`Modified ${NewName}`, "success")
+			  })
+			  .catch(() => {
+				showNotification(
+				  `Information of ${NewName} has already been removed from server`,
+				  "error"
+				)
+		
+				setPersons(prev =>
+				  prev.filter(p => p.id !== existingPerson.id)
+				)
+			  })
+		
 			return;
 		}
-		personService.update(existingPerson.id, updatedPerson).then(returnedPerson => {
-    	setPersons(prev => prev.map(p => p.id !== returnedPerson.id ? p : returnedPerson))})
-		showNotification(`Modified ${NewName}`, "success")
-		
-		return;	
-	}
 	console.log(NewName +" added");
-	personService.create(newPerson).then(response => {
-      setPersons(prev => prev.concat(response))
-    })
-	showNotification(`Added ${NewName}`, "success")
+	personService
+  .create(newPerson)
+  .then(response => {
+    setPersons(prev => prev.concat(response))
+    showNotification(`Added ${NewName}`, "success")
+  })
+  .catch(() => {
+    showNotification(`Failed to add ${NewName}`, "error")
+  })
 	
 
   };
