@@ -9,7 +9,7 @@ export const Navbar = styled.nav`
   align-items: center;
   gap: 1.5rem;
 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 `
 
 export const Spacer = styled.div`
@@ -28,23 +28,23 @@ export const NavLink = styled(Link)`
 `
 
 export const BlogList = styled.div`
-  margin-left: 1.25rem;        
+  margin-left: 1.25rem;
   margin-top: 0.5rem;
 
   & > div {
     display: flex;
     align-items: center;
-    gap: 0.4rem;               
-    margin: 0.15rem 0;         
+    gap: 0.4rem;
+    margin: 0.15rem 0;
   }
 
   & > div::before {
-    content: "•";
+    content: '•';
     font-size: 1.1rem;
     line-height: 1;
     color: #333;
   }
-`;
+`
 
 export const HiddenLabel = styled.label`
   position: absolute;
@@ -58,24 +58,14 @@ export const HiddenLabel = styled.label`
   border: 0;
 `
 
-
-
 export const NotificationBox = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
 
-  background: ${({ type }) =>
-    type === 'error'
-      ? '#ffebee'
-      : '#e6f4ea'}; 
+  background: ${({ type }) => (type === 'error' ? '#ffebee' : '#e6f4ea')};
 
-  color: ${({ type }) =>
-    type === 'error'
-      ? '#b71c1c'
-      : '#1e4620'}; 
-
- 
+  color: ${({ type }) => (type === 'error' ? '#b71c1c' : '#1e4620')};
 
   padding: 0.75rem 1rem;
   margin: 1rem 2rem;
@@ -85,19 +75,16 @@ export const NotificationBox = styled.div`
   font-size: 0.95rem;
   font-weight: 500;
 
-  box-shadow:
-    0 1px 2px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 
   transition: opacity 0.2s ease;
-`;
+`
 
 export const NotificationIcon = styled.div`
   font-size: 1.25rem;
   line-height: 1;
   margin-top: 2px;
-`;
-
-
+`
 
 export const LogoutButton = styled.button`
   background: transparent;
@@ -133,8 +120,8 @@ export const Button = styled.button`
   cursor: pointer;
 
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.2),
-    0 2px 6px rgba(0,0,0,0.15);
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.15);
 
   transition:
     background 0.2s ease,
@@ -145,8 +132,7 @@ export const Button = styled.button`
   }
 
   &:active {
-    box-shadow:
-      0 1px 2px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 `
 
@@ -159,7 +145,7 @@ export const Input = styled.input`
   padding: 0.4em 0.5em;
   margin: 0.75em 0;
 
-  font-size: 1rem;        /* matches Button + NavLink */
+  font-size: 1rem; /* matches Button + NavLink */
   font-weight: 400;
 
   outline: none;
@@ -172,14 +158,10 @@ export const Input = styled.input`
   &:focus {
     border-bottom: 2px solid #1976d2;
   }
-`;
-
+`
 
 export const BoxInput = styled(Input)`
   border: 1px solid #bdbdbd;
-  
-
-  
 
   background: white;
 `
@@ -191,22 +173,22 @@ export const BlogContainer = styled.div`
   border-radius: 6px;
 
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.1),
-    0 1px 2px rgba(0,0,0,0.08);
-`;
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+`
 
 export const BlogTitle = styled.h2`
-  margin: 0 0 0.75rem 0;   
+  margin: 0 0 0.75rem 0;
   font-size: 1.8rem;
   font-weight: 700;
-`;
+`
 
 export const BlogMeta = styled.div`
-  margin: 0 0 0.5rem 0;   
+  margin: 0 0 0.5rem 0;
   font-size: 1rem;
   color: #444;
 
-  line-height: 2;       
+  line-height: 2;
 
   a {
     color: #1976d2;
@@ -216,14 +198,14 @@ export const BlogMeta = styled.div`
   a:hover {
     text-decoration: underline;
   }
-`;
+`
 
 export const BlogActions = styled.div`
-  margin-top: 0rem;     
+  margin-top: 0rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-`;
+`
 
 export const OutlineButton = styled.button`
   background: white;
@@ -246,7 +228,7 @@ export const OutlineButton = styled.button`
   &:hover {
     background: #e3f2fd;
   }
-`;
+`
 
 export const DangerButton = styled(OutlineButton)`
   color: #d32f2f;
@@ -255,4 +237,35 @@ export const DangerButton = styled(OutlineButton)`
   &:hover {
     background: #ffebee;
   }
-`;
+`
+
+export const UsersHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-weight: 700;
+  margin: 1rem 2rem 0.5rem 2rem;
+`
+
+export const UserRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  margin: 0.25rem 2rem;
+  padding: 0.25rem 0;
+
+  border-bottom: 1px solid #eee;
+`
+export const AppLink = styled(Link)`
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+export const CommentFormRow = styled.div`
+  display: flex;
+  gap: 0.5rem; /* adjust spacing here */
+  align-items: center;
+`

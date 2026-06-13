@@ -21,14 +21,13 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: `http://localhost:${env.VITE_BACKEND_PORT}`,
           changeOrigin: true,
-        }
-      }
+        },
+      },
     },
 
     test: {
       environment: 'jsdom',
       globals: true,
-      
-    }
+    },
   }
 })

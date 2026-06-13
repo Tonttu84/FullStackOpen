@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test --project=chromium --project=firefox",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "lint": "prettier --write ."
   },
   "keywords": [],
   "author": "",

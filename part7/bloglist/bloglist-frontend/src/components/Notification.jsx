@@ -1,16 +1,19 @@
 import { NotificationBox, NotificationIcon } from '../styles/components'
+import { useNotification } from '../stores/notificationStore'
 
-const Notification = ({ notification }) => {
+const Notification = () => {
+  const notification = useNotification((state) => state.notification)
+
+  // console.log("Notification render:", notification)
+
   if (!notification) return null
 
-  const { type, message } = notification
-
   return (
-    <NotificationBox type={type}>
+    <NotificationBox type={notification.type}>
       <NotificationIcon>
-	  {type === 'error' ? '✖' : '✔'}
+        {notification.type === 'error' ? '✖' : '✔'}
       </NotificationIcon>
-      {message}
+      {notification.message}
     </NotificationBox>
   )
 }

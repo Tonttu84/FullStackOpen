@@ -1,172 +1,88 @@
-import { useState, useEffect } from 'react'
-import {ErrorBoundary} from './components/ErrorBoundary'
+import { useEffect } from 'react'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import Blogs from './components/Blogs'
 import BlogPage from './components/BlogPage'
 import Login from './components/Login'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
+import Users from './components/Users'
+
+import PageNotFound from './components/PageNotFound'
+
+import { useBlogs } from './stores/blogStore'
+import { userStore } from './stores/userStore'
+
+import UserPage from './components/UserPage'
 
 import { NavLink, Navbar, LogoutButton, Spacer } from './styles/components'
 
-
-
 import {
   BrowserRouter as Router,
-  Routes, Route, Link, useNavigate
+  Routes,
+  Route,
+  Link,
+  useNavigate,
 } from 'react-router-dom'
 
+const AppContent = () => {
+  const { blogs, initializeBlogs } = useBlogs()
 
-const AppContent = () =>
-{
-    const [blogs, setBlogs] = useState([])
+  const { user, logout, initUser } = userStore()
 
-    const [notificationMessage, setNotificationMessage] = useState(null)
+  const navigate = useNavigate()
 
-    const [user, setUser] = useState(null)
-    
-  	const navigate = useNavigate()
+  const handleLogout = () => {
+    logout()
 
-    const handleLogout = () => {
-  
-    setUser(null)
-    blogService.setToken(null)
-    localStorage.removeItem('loggedBlogUser')
-  
     navigate('/')
-  
-    }
-
-    
-
-    const createBlog = async (newBlog) => {
-            try {
-              const createdBlog = await blogService.create(newBlog)
-        
-              await refreshBlogs()
-        
-              //console.log('Created blog:', createdBlog)
-    
-              setNotificationMessage({
-                type: 'success',
-                message: `${createdBlog.title || 'Unknown title'} by ${createdBlog.author || 'Unknown author'} added`
-              })
-              //console.log('Notification set to :', notificationMessage)
-              setTimeout(() => setNotificationMessage(null), 5000)
-    
-        
-            } catch (error) {
-              //console.error('Error creating blog:', error)
-              void error
-              setNotificationMessage({
-                type: 'error',
-                message: 'Failed to add blog'
-              })
-                  setTimeout(() => setNotificationMessage(null), 5000)
-                
-            }
-          }
-    const deleteBlog = async (blog) => {
-	
-	
-	try {
-	  await blogService.deleteBlog(blog)
-  
-	  setBlogs(blogs.filter(b => b.id !== blog.id))
-	} catch (error) {
-	  console.error('delete failed', error)
-	}
   }
 
-	const refreshBlogs = async () => {
-		const blogs = await blogService.getAll()
-		setBlogs(blogs)
-	}
+  const createBlog = () => {}
 
-	useEffect(() => {
-		refreshBlogs()
-	}, [])
+  useEffect(() => {
+    initUser()
+  }, [initUser])
 
-  const handleLike = async (blog) => {
-
-	const updatedBlog = {
-		...blog,
-		likes: (blog.likes || 0) + 1
-	  }
-
-	  delete updatedBlog.user
-
-	  const returnedBlog = await blogService.like(updatedBlog)
-
-	setBlogs(prev =>
-  prev.map(b =>
-    b.id === blog.id
-      ? returnedBlog
-      : b
-	)
-	)
-  }
+  useEffect(() => {
+    initializeBlogs()
+  }, [initializeBlogs])
 
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
-    return (
-        <>
-          
-          
-      <Navbar >
-	  <NavLink to="/">Blog App</NavLink>
+  // console.log(blogs)
+  // console.dir(user)
 
-	  <Spacer />
-		
-        <NavLink  to="/">blogs</NavLink>
-        {!user && 
-        (<NavLink  to="/login">login</NavLink>)}
-        {user && (<NavLink to="/create">new blog</NavLink>)}
-        {user && (<LogoutButton onClick={handleLogout}>logout</LogoutButton>)}
-        
-        
-        
-		</Navbar>
-		<ErrorBoundary>
+  return (
+    <>
+      <Navbar>
+        <NavLink to="/">Blog App</NavLink>
 
-		<Notification notification={notificationMessage} />
+        <Spacer />
 
-      <Routes>
-        <Route path="/login" element={
-          <Login setUser={setUser} />
-        } />
-        <Route path="/" element={
-          <Blogs sortedBlogs={sortedBlogs} />
-        } />
+        <NavLink to="/">blogs</NavLink>
+        <NavLink to="/users">users</NavLink>
+        {!user && <NavLink to="/login">login</NavLink>}
+        {user && <NavLink to="/create">new blog</NavLink>}
+        {user && <LogoutButton onClick={handleLogout}>logout</LogoutButton>}
+      </Navbar>
+      <ErrorBoundary>
+        <Notification />
 
-        <Route
-        path="/blogs/:id"
-        element={
-            <BlogPage
-            blogs={blogs}
-            deleteBlog={deleteBlog}
-            handleLike={handleLike}
-            user={user}
-            />
-        }
-        />
+        <Routes>
+          <Route path="*" element={<PageNotFound />} />
 
-        <Route path="/create" element={
-             <AddBlog createBlog={createBlog} 
-	 	notifMessage={notificationMessage} />
-        } />
-	 
-	
-        
-        
-      </Routes>
-   
-	  </ErrorBoundary>
-         
-         
-        
-        </>
-    )
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Blogs sortedBlogs={sortedBlogs} />} />
+          <Route path="/users" element={<Users />} />
+           <Route path="/blogs/:id" element={<BlogPage user={user} />} />
+
+          <Route path="/users/:id" element={<UserPage />} />
+
+          <Route path="/create" element={<AddBlog createBlog={createBlog} />} />
+        </Routes>
+      </ErrorBoundary>
+    </>
+  )
 }
 
 const App = () => {
@@ -178,9 +94,3 @@ const App = () => {
 }
 
 export default App
-
-
-
-
-
-

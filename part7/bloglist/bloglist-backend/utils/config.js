@@ -10,9 +10,8 @@ if (result.error) {
   console.log(process.env.NODE_ENV)
 }
 
-const SECRET = process.env.NODE_ENV === 'test'
-  ? 'testsecret'
-  : process.env.SECRET
+const SECRET =
+  process.env.NODE_ENV === 'test' ? 'testsecret' : process.env.SECRET
 
 const PORT = process.env.PORT || 3001
 const mongoUrl = process.env.MONGODB_URI
