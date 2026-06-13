@@ -10,7 +10,7 @@ const SiteHeader = ({content}) =>{
 export const Content = ({ content }) => {
 	return (
 	  <>
-		<SiteHeader text = "Web development Curriculum" />
+		<SiteHeader content = "Web development Curriculum" />
 		{content.map(blaa => (
 		  <Course key={blaa.id} course={blaa} />
 		))}

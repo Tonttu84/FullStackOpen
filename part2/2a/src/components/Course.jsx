@@ -26,7 +26,7 @@ const Header = ({ name }) => {
 		<Header name={course.name} />
   
 		{course.parts.map(renderPart)}
-		<p>Total: {totalExercises(course)}</p>
+		<h3>total of {totalExercises(course)} exercises</h3>
 	  </>
 	);
   };
