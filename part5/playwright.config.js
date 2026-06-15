@@ -1,10 +1,9 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+const { defineConfig, devices } = require('@playwright/test');
 
-export default defineConfig({
+module.exports = defineConfig({
   testDir: './tests',
 
-  // 🔥 FORCE SINGLE WORKER (debug mode / stable runs)
   fullyParallel: false,
   workers: 1,
 

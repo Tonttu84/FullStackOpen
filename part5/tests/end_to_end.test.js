@@ -11,7 +11,7 @@ describe('Blog app', () => {
     await expect(username_field).toBeVisible()
     const password_field = page.getByLabel('password')
     await expect(password_field).toBeVisible()
-    
+
   })
 
   describe('Login', () => {
@@ -30,19 +30,8 @@ describe('Blog app', () => {
         await password_field.fill('testuser')
         await submit_button.click()
 
-        
-
-        
-
-    
-
-
-        
     await expect(page.getByRole('button', { name: /logout/ })).toBeVisible()
     await expect(page.getByRole('button', { name: 'login' })).not.toBeVisible()
-
-
-
 
     })
 
@@ -56,8 +45,6 @@ describe('Blog app', () => {
         await password_field.fill('fakepass')
         await submit_button.click()
 
-        
-
         await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
         await expect(page.getByRole('button', { name: 'logout' })).not.toBeVisible()
 
@@ -66,6 +53,8 @@ describe('Blog app', () => {
 
   describe('When logged in', () => {
   beforeEach(async ({ page }) => {
+  page.on('dialog', dialog => dialog.accept())
+
   await page.goto('http://localhost:5173/login')
 
   await page.getByLabel('username').fill('testuser')
@@ -74,23 +63,21 @@ describe('Blog app', () => {
 
   await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
 
-
-
 	while (await page.getByRole('link', { name: /testAuthor/ }).count() > 0) {
 
 		const newLink = page
 		  .getByRole('link', { name: /testAuthor/ })
 		  .first()
-	  
+
 		await newLink.click()
-	  
+
 		const deleteButton = page.getByRole('button', { name: 'REMOVE' })
-	  
+
 		if (await deleteButton.count() > 0) {
 		  await deleteButton.click()
 		}
 		await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
-		
+
 		await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
 	  }
 
@@ -98,10 +85,7 @@ describe('Blog app', () => {
 })
 
   test('a new blog can be created', async ({ page }) => {
-    
 
-
-    
 	await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
 
     //make sure the blog is not already there
@@ -120,26 +104,20 @@ describe('Blog app', () => {
     await author.fill('testAuthor')
     await url.fill('testUrl')
 
-
     const submitButton = page.getByRole('button', { name: 'create' })
     await submitButton.click()
 
     await expect(page.getByRole('link', { name: /testTitle/ })).toBeVisible()
-    
-
 
   })
 
    test('an existing blog can be liked', async ({ page }) => {
-
-	
 
     await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
     //make sure the blog is not already there
 	await page.getByRole('link', { name: 'new blog' }).click()
     await expect(page.getByText('testTitle')).toHaveCount(0)
 
-    
     const title =  page.getByLabel('title')
     await expect(title).toBeVisible()
     const author =  page.getByLabel('author')
@@ -151,14 +129,10 @@ describe('Blog app', () => {
     await url.fill('testUrl')
 	await page.getByRole('button', { name: 'create' }).click()
 
-
 	await expect(page.getByRole('link', { name: /testTitle/ })).toBeVisible()
 
     //We have now added the testblog
     await page.getByRole('link', { name: /testTitle/ }).click()
-
-
-
 
 	await page.getByRole('button', { name: /logout/ })
 	await expect(page.getByText('0 likes')).toBeVisible()
@@ -166,10 +140,6 @@ describe('Blog app', () => {
  const likeButton = await page.getByRole('button', { name: 'LIKE' })
  await likeButton.click()
  await expect(page.getByText('1 likes')).toBeVisible()
- 
-
-
-
 
   })
 
@@ -180,7 +150,6 @@ describe('Blog app', () => {
 	await page.getByRole('link', { name: 'new blog' }).click()
     await expect(page.getByText('testTitle')).toHaveCount(0)
 
-    
     const title =  page.getByLabel('title')
     await expect(title).toBeVisible()
     const author =  page.getByLabel('author')
@@ -191,14 +160,12 @@ describe('Blog app', () => {
     await author.fill('testAuthor')
     await url.fill('testUrl')
 
-
     const submitButton = page.getByRole('button', { name: 'create' })
     await submitButton.click()
 
     await expect(page.getByRole('link', { name: /testTitle/ })).toBeVisible()
 
     //We have now added the testblog
-   
 	await page.getByRole('link', { name: /testTitle/ }).click()
 
  const deleteButton =  page.getByRole('button', { name: /REMOVE/ })
@@ -207,32 +174,21 @@ describe('Blog app', () => {
 
  await expect(page.getByRole('link', { name: /testTitle/ })).not.toBeVisible()
 
- 
-
-
-
-
   })
 
   test('Delete button doesnt appear for non-owners', async ({ page }) => {
 
 	await page.getByRole('button', { name: /logout/ }).waitFor()
-    //make sure the blog is not already there
-   
 
 	const blog = page.getByRole('link', { name: /Bob Blog/ })
 
 	await expect(blog).toHaveCount(1)
 
-    //my before each leaves the views open so I dont need to open them now
-
      await blog.click()
 
     await expect(blog.getByRole('button', { name: 'REMOVE' })).toHaveCount(0)
-   
 
   })
-/*
   test('Likes are sorted in descending order', async ({ page }) => {
 
     const blogs = page.getByTestId('blog')
@@ -260,7 +216,6 @@ describe('Blog app', () => {
 }
 
   })
-*/
 })
 
 
