@@ -9,17 +9,14 @@ import {
   Button,
   Input,
   BoxInput,
-  CommentFormRow
+  CommentFormRow,
 } from '../styles/components'
 import PageNotFound from './PageNotFound'
 import { useBlogs } from '../stores/blogStore'
 import { useNavigate } from 'react-router-dom'
 import { useField } from '../hooks/useField'
-import blogService from '../services/blogs'
 
 const Blog = ({ blog, likeDummy, user }) => {
-  console.dir(blog)
-
   const navigate = useNavigate()
 
   const comment = useField('text')
@@ -39,6 +36,7 @@ const Blog = ({ blog, likeDummy, user }) => {
     event.preventDefault()
 
     await addComment(blog, comment.value)
+    comment.reset()
   }
 
   if (!blog) return <PageNotFound></PageNotFound>

@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "start": "npm run dev:full",
     "dev:backend": "npm --prefix bloglist-backend run develop",
     "dev:frontend": "npm --prefix bloglist-frontend run develop",
     "dev:full": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",

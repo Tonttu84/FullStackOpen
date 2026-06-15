@@ -74,7 +74,7 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Blogs sortedBlogs={sortedBlogs} />} />
           <Route path="/users" element={<Users />} />
-           <Route path="/blogs/:id" element={<BlogPage user={user} />} />
+          <Route path="/blogs/:id" element={<BlogPage user={user} />} />
 
           <Route path="/users/:id" element={<UserPage />} />
 

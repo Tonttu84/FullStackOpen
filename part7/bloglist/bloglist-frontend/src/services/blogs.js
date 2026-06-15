@@ -26,7 +26,6 @@ const create = async (newBlog) => {
   return response.data
 }
 
-
 const like = async (blog) => {
   const config = {
     headers: { Authorization: token },
@@ -37,11 +36,7 @@ const like = async (blog) => {
     likes: blog.likes + 1,
   }
 
-  const response = await api.put(
-    `${baseUrl}/${blog.id}`,
-    updatedBlog,
-    config
-  )
+  const response = await api.put(`${baseUrl}/${blog.id}`, updatedBlog, config)
 
   return response.data
 }
@@ -61,11 +56,21 @@ const addComment = async (blog, comment) => {
     headers: { Authorization: token },
   }
 
-  const response = await api.post(`${baseUrl}/${blog.id}/comments`, 
-    { comment }, 
-    config)
+  const response = await api.post(
+    `${baseUrl}/${blog.id}/comments`,
+    { comment },
+    config,
+  )
 
   return response.data
 }
 
-export default { getAll, getBlog, create, setToken, like, deleteBlog, addComment }
+export default {
+  getAll,
+  getBlog,
+  create,
+  setToken,
+  like,
+  deleteBlog,
+  addComment,
+}

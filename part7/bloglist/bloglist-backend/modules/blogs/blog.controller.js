@@ -60,8 +60,6 @@ blogRouter.delete(
   async (request, response) => {
     const { id } = request.params
 
-    
-    console.log('DELETE ROUTE HIT')
     const blog = await Blog.findById(id)
     if (!blog) {
       return response.status(404).json({ error: 'blog not found' })
@@ -88,8 +86,6 @@ blogRouter.put(
     const blog = await Blog.findById(id)
 
     if (!blog) {
-      //console.log('blog.user:', blog?.user?.toString() || 'missing user')
-      //console.log('request.userId:', (userId || 'invalid id' ))
       return response.status(404).json({ error: 'blog not found' })
     }
 
@@ -149,7 +145,7 @@ blogRouter.post(
     const blog = await Blog.findByIdAndUpdate(
       id,
       { $push: { comments: comment } },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     )
 
     if (!blog) {
@@ -157,7 +153,7 @@ blogRouter.post(
     }
 
     res.json(blog)
-  }
+  },
 )
 
 module.exports = blogRouter

@@ -1,16 +1,13 @@
 const jwt = require('jsonwebtoken')
-const congif = require('../utils/config')
+const config = require('../utils/config')
 const logger = require('../utils/logger')
 
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
-console.log('tokenExtractor start')
-    console.log('AUTH HEADER:', authorization)
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return response.status(401).json({ error: 'token missing' })
   }
-  console.log('tokenExtractor middle')
 
   const token = authorization.replace('Bearer ', '')
 
@@ -20,15 +17,13 @@ console.log('tokenExtractor start')
 }
 
 const userExtractor = (request, response, next) => {
-  console.log('userExtractor start')
   try {
     if (!request.token) {
       logger.warn('Token missing before verification')
       return response.status(401).json({ error: 'token missing' })
     }
-    console.log('userExtractor part 2')
-     console.log('TOKEN:', request.token)
-    const decodedToken = jwt.verify(request.token, congif.SECRET)
+
+    const decodedToken = jwt.verify(request.token, config.SECRET)
 
     if (!decodedToken.id) {
       logger.warn({
@@ -36,16 +31,15 @@ const userExtractor = (request, response, next) => {
       })
       return response.status(401).json({ error: 'token invalid' })
     }
-console.log('userExtractor part 3')
+
     request.userId = decodedToken.id
     request.user = decodedToken.user
 
     next()
   } catch (error) {
-    void error
-     if (error.name === 'TokenExpiredError') {
-    return response.status(401).json({ error: 'token expired' })
-  }
+    if (error.name === 'TokenExpiredError') {
+      return response.status(401).json({ error: 'token expired' })
+    }
     return response.status(401).json({ error: 'token invalid' })
   }
 }

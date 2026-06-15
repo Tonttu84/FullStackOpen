@@ -21,7 +21,7 @@ describe('Blog component for unauthenticated users', () => {
     url: 'https://example.com/testing-vitest',
     likes: 5,
     user: '123',
-    comments:  []
+    comments: [],
   }
 
   beforeEach(() => {
@@ -65,7 +65,7 @@ test('The owner can also see a delete buttons', () => {
     url: 'https://example.com/testing-vitest',
     likes: 5,
     user: validUser,
-    comments:  []
+    comments: [],
   }
 
   renderWithRouter(<Blog blog={validBlog} user={validUser} />)
@@ -88,7 +88,7 @@ test('A logged in user can see the like button', () => {
     url: 'https://example.com/testing-vitest',
     likes: 5,
     user: owner,
-    comments:  []
+    comments: [],
   }
 
   renderWithRouter(<Blog blog={validBlog} user={validUser} />)
@@ -107,7 +107,7 @@ test(' blogs URL and number of likes are shown when the button controlling the s
     url: 'https://example.com/testing-vitest',
     likes: 5,
     user: '123',
-    comments:  []
+    comments: [],
   }
 
   renderWithRouter(<Blog blog={validBlog} user={{ username: 'someone' }} />)
@@ -127,7 +127,7 @@ test('clicking the button calls event handler once', async () => {
     url: 'https://example.com/testing-vitest',
     likes: 5,
     user: '123',
-    comments:  []
+    comments: [],
   }
 
   const mockHandler = vi.fn()

@@ -11,7 +11,7 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       error.response?.data?.error === 'token expired'
     ) {
-      localStorage.removeItem('loggedBlogAppUser')
+      localStorage.removeItem('loggedBlogappUser')
 
       alert('Session expired. Please log in again.')
 
@@ -19,7 +19,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  }
+  },
 )
 
 export default api

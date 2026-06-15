@@ -26,8 +26,8 @@ const blogSchema = mongoose.Schema({
     {
       type: String,
       default: [],
-    }
-  ]
+    },
+  ],
 })
 
 blogSchema.index({ title: 1, author: 1, url: 1 }, { unique: true })
