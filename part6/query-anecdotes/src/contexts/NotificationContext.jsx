@@ -13,4 +13,4 @@ export const NotificationProvider = ({ children }) => {
 }
 
 export const useNotification = () => useContext(NotificationContext)[0]
-export const useNotificationDispatch = () => useContext(NotificationContext)[1]
+export const useNotify = () => useContext(NotificationContext)[1]

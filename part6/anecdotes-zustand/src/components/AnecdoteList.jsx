@@ -14,8 +14,6 @@ const AnecdoteList = () =>
     )
     .toSorted((a, b) => b.votes - a.votes)
 
-    console.dir(anecdotes)
-
   return(
 
     <>

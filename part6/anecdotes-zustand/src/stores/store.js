@@ -20,9 +20,7 @@ const useAnecdoteStore = create((set) => ({
 
     increaseVotes: async (anecdote) => {
 
-      console.log(anecdote)
-
-        try 
+        try
         {
          const updatedAnecdote =  await increaseVotebyID(anecdote)
          set((state) => ({
