@@ -1,7 +1,6 @@
 import { useField } from '../hooks/useField'
-import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
-import { Button, Input, HiddenLabel } from '../styles/components'
+import { Button, Input } from '../styles/components'
 import { useNotification } from '../stores/notificationStore'
 import { userStore } from '../stores/userStore'
 
@@ -34,17 +33,28 @@ const Login = () => {
     }
   }
 
+  const { reset: _ru, ...usernameProps } = username
+  const { reset: _rp, ...passwordProps } = password
+
   return (
     <>
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
-          <HiddenLabel htmlFor="username">username</HiddenLabel>
-          <Input id="username" placeholder="username" {...username} />
+          <Input
+            aria-label="username"
+            id="username"
+            placeholder="username"
+            {...usernameProps}
+          />
         </div>
         <div>
-          <HiddenLabel htmlFor="password">password</HiddenLabel>
-          <Input id="password" placeholder="password" {...password} />
+          <Input
+            aria-label="password"
+            id="password"
+            placeholder="password"
+            {...passwordProps}
+          />
         </div>
         <Button type="submit">login</Button>
       </form>

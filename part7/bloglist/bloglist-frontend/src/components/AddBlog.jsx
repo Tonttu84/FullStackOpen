@@ -1,7 +1,6 @@
 import { useField } from '../hooks/useField'
-import Notification from './Notification'
 import { useNavigate } from 'react-router-dom'
-import { Button, BoxInput, HiddenLabel } from '../styles/components'
+import { Button, BoxInput } from '../styles/components'
 import { useBlogs } from '../stores/blogStore'
 
 const AddBlog = ({ createBlog }) => {
@@ -31,6 +30,10 @@ const AddBlog = ({ createBlog }) => {
     navigate('/')
   }
 
+  const { reset: _rt, ...titleProps } = title
+  const { reset: _ra, ...authorProps } = author
+  const { reset: _ru, ...urlProps } = url
+
   return (
     <div>
       <p></p>
@@ -39,21 +42,25 @@ const AddBlog = ({ createBlog }) => {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <HiddenLabel htmlFor="title">title</HiddenLabel>
-
-          <BoxInput id="title" placeholder="title" {...title} />
+          <BoxInput
+            aria-label="title"
+            id="title"
+            placeholder="title"
+            {...titleProps}
+          />
         </div>
 
         <div>
-          <HiddenLabel htmlFor="author">author</HiddenLabel>
-
-          <BoxInput id="author" placeholder="author" {...author} />
+          <BoxInput
+            aria-label="author"
+            id="author"
+            placeholder="author"
+            {...authorProps}
+          />
         </div>
 
         <div>
-          <HiddenLabel htmlFor="url">url</HiddenLabel>
-
-          <BoxInput id="url" placeholder="url" {...url} />
+          <BoxInput aria-label="url" id="url" placeholder="url" {...urlProps} />
         </div>
 
         <Button type="submit">create</Button>

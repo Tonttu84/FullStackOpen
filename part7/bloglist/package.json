@@ -11,7 +11,7 @@
     "test:frontend": "npm --prefix bloglist-frontend test",
     "test:playwright": "npm --prefix playwright-tests test",
     "test": "npm run test:backend && npm run test:frontend && npm run test:playwright",
-    "lint": "eslint .",
+    "lint": "npm --prefix bloglist-backend run lint && npm --prefix bloglist-frontend run lint",
     "format": "prettier --write ."
   },
   "devDependencies": {
