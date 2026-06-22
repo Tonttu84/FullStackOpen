@@ -8,8 +8,10 @@ const NewBook = (props) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+  const [error, setError] = useState(null)
   const [createBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    refetchQueries: [{ query: ALL_BOOKS, variables: { genre: null } }, { query: ALL_AUTHORS }],
+    onError: (err) => setError(err.message)
   })
 
   if (!props.show) {
@@ -20,7 +22,7 @@ const NewBook = (props) => {
     event.preventDefault()
 
     createBook({ variables: { title, author, published: parseInt(published), genres } })
-    console.log('add book...')
+    
 
     setTitle('')
     setPublished('')
@@ -36,34 +38,36 @@ const NewBook = (props) => {
 
   return (
     <div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={submit}>
         <div>
-          title
+          <label>title
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
-          />
+          /></label>
         </div>
         <div>
-          author
+          <label>author
           <input
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
-          />
+          /></label>
         </div>
         <div>
-          published
+          <label>published
           <input
             type="number"
             value={published}
             onChange={({ target }) => setPublished(target.value)}
-          />
+          /></label>
         </div>
         <div>
+          <label>genre
           <input
             value={genre}
             onChange={({ target }) => setGenre(target.value)}
-          />
+          /></label>
           <button onClick={addGenre} type="button">
             add genre
           </button>

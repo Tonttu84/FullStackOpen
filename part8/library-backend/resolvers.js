@@ -43,6 +43,12 @@ const resolvers = {
       if (!context.currentUser) throw new GraphQLError('not authenticated', {
         extensions: { code: 'UNAUTHENTICATED' }
       })
+	  if (!args.name || args.name.length < 4) {
+		throw new GraphQLError('Author name too short', {
+		  extensions: { code: 'BAD_USER_INPUT' }
+		})
+	  }
+	  
       return await Author.findOneAndUpdate({ name: args.name }, { born: args.setBornTo }, { new: true })
     },
     createUser: async (_root, args) => {

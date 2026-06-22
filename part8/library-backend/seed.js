@@ -2,6 +2,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/book')
+const User = require('./models/user')
 
 const authors = [
   { name: 'Robert Martin', born: 1952 },
@@ -21,12 +22,18 @@ const books = [
   { title: 'Demons', published: 1872, author: 'Fyodor Dostoevsky', genres: ['classic', 'revolution'] },
 ]
 
+const users = [
+  { username: 'testuser', favoriteGenre: 'refactoring' },
+  { username: 'bookworm', favoriteGenre: 'classic' },
+]
+
 const seed = async () => {
   await mongoose.connect(process.env.MONGODB_URI)
   console.log('connected to MongoDB')
 
   await Author.deleteMany({})
   await Book.deleteMany({})
+  await User.deleteMany({})
 
   const savedAuthors = await Author.insertMany(authors)
 
@@ -38,7 +45,8 @@ const seed = async () => {
   const booksWithRefs = books.map(b => ({ ...b, author: authorMap[b.author] }))
   await Book.insertMany(booksWithRefs)
 
-  console.log('seeded', savedAuthors.length, 'authors and', books.length, 'books')
+  await User.insertMany(users)
+  console.log('seeded', savedAuthors.length, 'authors,', books.length, 'books and', users.length, 'users')
   await mongoose.disconnect()
 }
 
